@@ -63,7 +63,10 @@ var Placeholders = (function() {
 
 		//Create an input element to test for the presence of the placeholder property. If the placeholder property exists, stop.
 		var test = document.createElement("input"),
-			styleElem, styleRules;
+			styleElem, 
+			styleRules,
+			i,
+			j;
 
 		//Test input element for presence of placeholder property. If it doesn't exist, the browser does not support HTML5 placeholders
 		if(typeof test.placeholder === "undefined") {
@@ -90,11 +93,11 @@ var Placeholders = (function() {
 			//We use Array.prototype.indexOf later, so make sure it exists
 			if(!Array.prototype.indexOf) {
 				Array.prototype.indexOf = function(obj, start) {
-					for(var i = (start || 0), j = this.length; i < j; i++) {
+					for(i = (start || 0), j = this.length; i < j; i++) {
 						if(this[i] === obj) { return i; }
 					}
 					return -1;
-				}
+				};
 			}
 
 			//Create placeholders for input elements currently part of the DOM
@@ -122,14 +125,15 @@ var Placeholders = (function() {
 		var inputs = document.getElementsByTagName("input"),
 			i,
 			input,
-			form;
+			form,
+			placeholder;
 
 		//Iterate over all input elements and apply placeholder polyfill if necessary
 		for(i = 0; i < inputs.length; i++) {
 			input = inputs[i];
 
 			//Get the value of the placeholder attribute
-			var placeholder = input.getAttribute("placeholder");
+			placeholder = input.getAttribute("placeholder");
 
 			//Check whether or not the current input is of a type that allows the placeholder attribute
 			if(invalidTypes.indexOf(input.type) === -1) {
@@ -309,5 +313,5 @@ var Placeholders = (function() {
 	return {
 		init: init,
 		refresh: updatePlaceholders
-	}
+	};
 }());
