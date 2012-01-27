@@ -2,6 +2,18 @@
 
 Placeholders.js is a polyfill (or shim, or whatever you like to call it) for the HTML5 placeholder attribute, as defined in the <a href="http://dev.w3.org/html5/spec/Overview.html#attr-input-placeholder">HTML5 draft specification</a>. Placeholder attributes are valid on `input` elements of various types and `textarea` elements.
 
+<h2>Features</h2>
+
+<ul>
+<li>Works on both `input` and `textarea` elements</li>
+<li>Works by finding `placeholder` attributes on elements, so there's no need to call it repeatedly for every element. Just add the placeholder attribute as if it were supported natively.</li>
+<li>Simulates native styles for the placeholders but keeps any custom styles you've defined on the elements</li>
+<li>Placeholder values are not submitted as form data if the element is part of a form</li>
+<li>Works for elements that are added to the DOM after the page has loaded, and also for elements whose placeholder value changes after the page has loaded</li>
+<li>Wide range of browsers supported, including IE6</li>
+<li>No dependencies (so no need to include jQuery, unlike most placeholder polyfill scripts)</li>
+</ul>
+
 <h2>How do I use it?</h2>
 
 Placeholders.js is designed to replicate native placeholder attribute functionality as best as it can. To get it working, simply define placeholders on your `input` or `textarea` elements as usual:
