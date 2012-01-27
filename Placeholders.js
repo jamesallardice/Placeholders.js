@@ -201,7 +201,7 @@ var Placeholders = (function() {
 
 		//Iterate over all input and textarea elements and apply/update the placeholder polyfill if necessary
 		for(i = 0; i < num; i++) {
-		
+
 			//Get the next element from either the input NodeList or the textarea NodeList, depending on how many elements we've already looped through
 			element = (i < numInputs) ? inputs[i] : textareas[i - numInputs];
 
@@ -296,18 +296,20 @@ var Placeholders = (function() {
 	 * input element descendants of the form are removed so that the placeholder value is not submitted as the element value. */
 	function submitHandler(elem) {
 		var inputs = elem.getElementsByTagName("input"),
-			input,
+			textareas = elem.getElementsByTagName("textarea"),
+			numInputs = inputs.length,
+			num = numInputs + textareas.length,
+			element,
 			placeholder,
 			i;
-
 		//Iterate over all descendant input elements and remove placeholder if necessary
-		for(i = 0; i < inputs.length; i++) {
-			input = inputs[i];
-			placeholder = input.getAttribute("placeholder");
+		for(i = 0; i < num; i++) {
+			element = (i < numInputs) ? inputs[i] : textareas[i - numInputs];
+			placeholder = element.getAttribute("placeholder");
 
 			//If the value of the input is equal to the value of the placeholder attribute we need to clear the value
-			if(input.value === placeholder) {
-				input.value = "";
+			if(element.value === placeholder) {
+				element.value = "";
 			}
 		}
 	}
