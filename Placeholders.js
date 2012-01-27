@@ -221,7 +221,7 @@ var Placeholders = (function() {
 					if(newPlaceholder !== oldPlaceholder) {
 
 						//The placeholder attribute value has changed so we need to update. Check whether the placeholder should currently be visible.
-						if(element.value === oldPlaceholder || !element.value) {
+						if(element.value === oldPlaceholder || element.value === newPlaceholder || !element.value) {
 
 							//The placeholder should be visible so change the element value to that of the placeholder attribute and set placeholder styles
 							element.value = newPlaceholder;
