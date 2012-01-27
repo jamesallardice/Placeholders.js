@@ -77,7 +77,7 @@ var Placeholders = (function() {
 			styleElem.type = "text/css";
 
 			//Create style rules as text node
-			styleRules = document.createTextNode(".placeholderspolyfill { color:#999; }");
+			styleRules = document.createTextNode(".placeholderspolyfill { color:#999 !important; }");
 
 			//Append style rules to newly created stylesheet
 			if(styleElem.styleSheet) {
