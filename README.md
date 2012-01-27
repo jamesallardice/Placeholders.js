@@ -42,4 +42,4 @@ The `refresh` method can be called at any time to update the placeholders define
     
 <h2>Known Issues</h2>
 
-When applying a placeholder to an `input` element of type `password`, the default "hidden" character is used instead of plain text.
+When applying a placeholder to an `input` element of type `password`, the default "hidden" character is used instead of plain text. This issue has been addressed in an experimental version of the polyfill. It works by inserting a new `input` element of type `text` into the DOM just before the `password` input. The new element and the original element are then switched between as necessary. For this reason, you may experience issues with any event handlers bound to the original element, and also with any styles applied to the original element.
