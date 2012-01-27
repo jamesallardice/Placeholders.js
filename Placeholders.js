@@ -50,16 +50,12 @@ var Placeholders = (function() {
 		"button"
 	],
 
-	/* If live is true, dynamic changes to input elements (such as the placeholder attribute value changing programatically) will be
-	 * reflected by the polyfill */
-		live = false,
-
 	//"interval" will be used if "live" is true
 		interval;
 
 	/* The init function checks whether or not we need to polyfill the placeholder functionality. If we do, it sets up various things
 	 * needed throughout the script and then calls createPlaceholders to setup initial placeholders */
-	function init(l) {
+	function init(live) {
 
 		//Create an input element to test for the presence of the placeholder property. If the placeholder property exists, stop.
 		var test = document.createElement("input"),
@@ -102,9 +98,6 @@ var Placeholders = (function() {
 
 			//Create placeholders for input elements currently part of the DOM
 			createPlaceholders();
-
-			//Was the live argument specified?
-			live = l || live;
 
 			//If the live argument is truthy, call updatePlaceholders repeatedly to keep up to date with any DOM changes
 			if(live) {
