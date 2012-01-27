@@ -38,3 +38,7 @@ The `init` method is all that you need to call to get the polyfill working. It a
 The `refresh` method can be called at any time to update the placeholders defined on elements, and detect any elements recently added to the DOM. You only need to use the `refresh` method if the `live` argument was set to `false` when you called `init`.
 
     Placeholders.refresh();
+    
+<h2>Known Issues</h2>
+
+When applying a placeholder to an `input` element of type `password`, the default "hidden" character is used instead of plain text.
