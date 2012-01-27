@@ -143,7 +143,7 @@ var Placeholders = (function() {
 					element.setAttribute("data-currentplaceholder", placeholder);
 
 					//If the value of the element is the empty string set the value to that of the placeholder attribute and apply the placeholder styles
-					if(element.value === "") {
+					if(element.value === "" || element.value === placeholder) {
 						element.className = element.className + " placeholderspolyfill";
 						element.value = placeholder;
 					}
