@@ -43,3 +43,27 @@ The `refresh` method can be called at any time to update the placeholders define
 <h2>Known Issues</h2>
 
 When applying a placeholder to an `input` element of type `password`, the default "hidden" character is used instead of plain text. This issue has been addressed in an experimental version of the polyfill. It works by inserting a new `input` element of type `text` into the DOM just before the `password` input. The new element and the original element are then switched between as necessary. For this reason, you may experience issues with any event handlers bound to the original element, and also with any styles applied to the original element.
+    
+<h2>Supported Browsers</h2>
+
+Placeholders.js aims to support the widest range of browsers possible. The idea is that you will be able to use the native `placeholder` attribute along with Placeholders.js and your users on any platform will get the same experience. This table will be updated as and when further browsers are tested. Mobile browser testing is a big one that's high on the list. Currently tested and working in the following browsers on (where applicable) both Windows 7 and CentOS 6:
+
+<table>
+<tr>
+<td rowspan="2">Internet Explorer 6 - 9 (with Placeholders.js)</td>
+<td>Firefox 3.6 (with Placeholders.js)</td>
+<td>Opera 7 - 10(with Placeholders.js)</td>
+<td>Safari 3.2 (with Placeholders.js)</td>
+</tr>
+<tr>
+<td>Firefox 4 - 9 (native)</td>
+<td>Opera 11 (native)</td>
+<td>Safari 4 - 5 (native)</td>
+</tr>
+<tr>
+<td>Flock 1.0 - 2.6.1 (with Placeholders.js)</td>
+<td>Konqueror 4.3 (with Placeholders.js)</td>
+<td>Chrome 4 - 16 (native)</td>
+<td>SeaMonkey 1.1 (with Placeholders.js)</td>
+</tr>
+</table>
