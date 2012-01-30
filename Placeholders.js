@@ -99,7 +99,9 @@ var Placeholders = (function() {
 			//Create placeholders for input elements currently part of the DOM
 			createPlaceholders();
 
-			//If the live argument is truthy, call updatePlaceholders repeatedly to keep up to date with any DOM changes
+			/* If the live argument is truthy, call updatePlaceholders repeatedly to keep up to date with any DOM changes.
+			 * We use an interval over events such as DOMAttrModified (which are used in some other implementations of the placeholder attribute)
+			 * since the DOM level 2 mutation events are deprecated in the level 3 spec. */
 			if(live) {
 				interval = setInterval(updatePlaceholders, 100);
 			}
