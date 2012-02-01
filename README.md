@@ -51,7 +51,7 @@ Placeholders.js aims to support the widest range of browsers possible. The idea 
 <table>
 <tr>
 <td rowspan="2">Internet Explorer 6 - 9 (with Placeholders.js)</td>
-<td>Firefox 3.6 (with Placeholders.js)</td>
+<td>Firefox 1 - 3 (with Placeholders.js)</td>
 <td>Opera 7 - 10(with Placeholders.js)</td>
 <td>Safari 3.2 (with Placeholders.js)</td>
 </tr>
