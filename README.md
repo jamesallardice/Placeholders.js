@@ -64,6 +64,10 @@ Placeholders.js aims to support the widest range of browsers possible. The idea 
 <td>Flock 1.0 - 2.6.1 (with Placeholders.js)</td>
 <td>Konqueror 4.3 (with Placeholders.js)</td>
 <td>Chrome 4 - 16 (native)</td>
-<td>SeaMonkey 1.1 (with Placeholders.js)</td>
+<td>SeaMonkey 1 - 2 (with Placeholders.js)</td>
 </tr>
+<tr>
+<td>Maxthon 1-2 (with Placeholders.js)</td>
+<td>SlimBrowser 5 (with Placeholders.js)</td>
+<td>K-Meleon 0.7+ (with Placeholders.js)</td>
 </table>
