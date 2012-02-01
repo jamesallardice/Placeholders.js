@@ -56,7 +56,7 @@ Placeholders.js aims to support the widest range of browsers possible. The idea 
 <td>Safari 3.2 (with Placeholders.js)</td>
 </tr>
 <tr>
-<td>Firefox 4 - 9 (native)</td>
+<td>Firefox 4 - 10 (native)</td>
 <td>Opera 11 (native)</td>
 <td>Safari 4 - 5 (native)</td>
 </tr>
