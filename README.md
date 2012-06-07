@@ -12,7 +12,8 @@ Placeholders.js is a polyfill (or shim, or whatever you like to call it) for the
 <li>Works for elements that are added to the DOM after the page has loaded, and also for elements whose placeholder value changes after the page has loaded</li>
 <li>Wide range of browsers supported, including IE6</li>
 <li>No dependencies (so no need to include jQuery, unlike most placeholder polyfill scripts)</li>
-<li>All of the above in less than 3kB when minified!</li>
+<li>All of the above in just over 2kB when minified, and less than 1kB when gzipped!</li>
+<li>Passes [JSLint](http://www.jslint.com/) with no errors or warnings</li>
 </ul>
 
 <h2>How do I use it?</h2>
