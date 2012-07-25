@@ -29,9 +29,18 @@ That's all there is to it! Browsers that alreay support the placeholder attribut
 
 ##The `init` method
 
-The `init` method is all that you need to call to get the polyfill working. It accepts one Boolean argument, `live`. If `true`, this argument causes the polyfill to apply to all `input` and `textarea` elements, both now and in the future. This means if you insert a new element into the DOM, its placeholder attribute will function as expected. If the value of a placeholder attribute is modified by code sometime after the `init` method has executed, `live` will cause the changes to be reflected. If the `live` argument is `false`, the new element would not display its placeholder, and modified placeholder values would not function correctly.
+The `init` method is all that you need to call to get the polyfill working. It accepts one argument, `settings`. The `settings` argument should be an object. It currently supports two properties:
 
-    Placeholders.init(true); //Apply to future and modified elements too
+ - `live` - If `true`, this option causes the polyfill to apply to all `input` and `textarea` elements, both now and in the future. This means if you insert a new element into the DOM, its placeholder attribute will function as expected. If the value of a placeholder attribute is modified by code sometime after the `init` method has executed, `live` will cause the changes to be reflected. If the `live` option is `false`, or not specified, the new element would not display its placeholder, and modified placeholder values would not function correctly.
+
+ - `hideOnFocus` - If `true`, this option will cause the placeholder to disappear when the element receives focus. If `false`, or not specified, the placeholder will disappear when some input is entered into the element.
+
+ Here's an example call to the `init` method:
+
+    Placeholders.init({
+    	live: true, //Apply to future and modified elements too
+    	hideOnFocus: true //Hide the placeholder when the element receives focus
+    });
     
 ##The `refresh` method
 
@@ -41,7 +50,11 @@ The `refresh` method can be called at any time to update the placeholders define
     
 ##Known Issues
 
-When applying a placeholder to an `input` element of type `password`, the default "hidden" character is used instead of plain text. This issue has been addressed in an experimental version of the polyfill. It works by inserting a new `input` element of type `text` into the DOM just before the `password` input. The new element and the original element are then switched between as necessary. For this reason, you may experience issues with any event handlers bound to the original element, and also with any styles applied to the original element.
+ - When applying a placeholder to an `input` element of type `password`, the default "hidden" character is used instead of plain text. This issue has been addressed in an experimental version of the polyfill. It works by inserting a new `input` element of type `text` into the DOM just before the `password` input. The new element and the original element are then switched between as necessary. For this reason, you may experience issues with any event handlers bound to the original element, and also with any styles applied to the original element.
+
+ - Because the polyfill uses the `value` attribute to display the placeholder, users will be unable to enter the placeholder value as valid input.
+
+ - (When the `hideOnFocus` option is `false`) The cursor position can currently be changed after focus, so you can insert characters in the middle of the placeholder value (causing the placeholder not to hide).
     
 ##Supported Browsers
 
