@@ -35,7 +35,7 @@ The `init` method is all that you need to call to get the polyfill working. It a
 
  - `hideOnFocus` - If `true`, this option will cause the placeholder to disappear when the element receives focus. If `false`, or not specified, the placeholder will disappear when some input is entered into the element.
 
- Here's an example call to the `init` method:
+Here's an example call to the `init` method:
 
     Placeholders.init({
     	live: true, //Apply to future and modified elements too
@@ -56,7 +56,7 @@ The `refresh` method can be called at any time to update the placeholders define
 
  - (When the `hideOnFocus` option is `false`) The cursor position can currently be changed after focus, so you can insert characters in the middle of the placeholder value (causing the placeholder not to hide).
 
- - The placeholder text cannot be styled. The ability to do so is currently non-standard, but is present in WebKit (with the `::-webkit-input-placeholder` pseudoelement) and Firefox (with the `:-moz-placeholder` pseudoclass). This feature will not be added to the polyfill until some standard is defined.
+ - The placeholder text cannot be styled. The ability to do so is currently non-standard, but is present in WebKit (with the `::-webkit-input-placeholder` pseudoelement), Firefox 4+ (with the `:-moz-placeholder` pseudoclass) and Internet Explorer 10 (with the `:-ms-input-placeholder` pseudoclass). This feature will not be added to the polyfill until some standard is defined.
     
 ##Supported Browsers
 
