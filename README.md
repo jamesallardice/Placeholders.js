@@ -30,9 +30,9 @@ That's all there is to it! Browsers that alreay support the placeholder attribut
 
 The `init` method is all that you need to call to get the polyfill working. It accepts one argument, `settings`. The `settings` argument should be an object. It currently supports two properties:
 
- - `live` - If `true`, this option causes the polyfill to apply to all `input` and `textarea` elements, both now and in the future. This means if you insert a new element into the DOM, its placeholder attribute will function as expected. If the value of a placeholder attribute is modified by code sometime after the `init` method has executed, `live` will cause the changes to be reflected. If the `live` option is `false`, or not specified, the new element would not display its placeholder, and modified placeholder values would not function correctly.
+ - `live` - If `true`, this option causes the polyfill to apply to all `input` and `textarea` elements, both now and in the future. This means if you insert a new element into the DOM, its placeholder attribute will function as expected. If the value of a placeholder attribute is modified by code sometime after the `init` method has executed, `live` will cause the changes to be reflected. If the `live` option is `false`, or not specified, the new element would not display its placeholder, and modified placeholder values would not function correctly. **Default: `false`**.
 
- - `hideOnFocus` - If `true`, this option will cause the placeholder to disappear when the element receives focus. If `false`, or not specified, the placeholder will disappear when some input is entered into the element.
+ - `hideOnFocus` - If `true`, this option will cause the placeholder to disappear when the element receives focus. If `false`, or not specified, the placeholder will disappear when some input is entered into the element. **Default: `false`**.
 
 Here's an example call to the `init` method:
 
