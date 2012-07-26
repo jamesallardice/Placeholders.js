@@ -153,6 +153,10 @@ var Placeholders = (function () {
 		}
 	}
 
+	function clickHandler(elem) {
+		return elem.value !== elem.getAttribute("placeholder");
+	}
+
 	/* The keydownHandler function is executed when the input elements with placeholder attributes receive a keydown event. It simply stores the current
 	 * value of the input (so we can kind-of simulate the poorly-supported `input` event). Used when `hideOnFocus` option is `false`. */
 	function keydownHandler(elem) {
@@ -172,43 +176,31 @@ var Placeholders = (function () {
 		}
 	}
 
-	//The addEventListeners function binds focus and blur event listeners to the specified input or textarea element.
-	function addEventListeners(element) {
+	//The addEventListener function binds an event handler to a specific event on the specified element. Handles old-IE and modern browsers.
+	function addEventListener(element, event, fn) {
 		if (element.addEventListener) {
-			/* Attach event listeners (W3C style. Anonymous event handler used to be consistent with Microsoft style and make it easier to refer
-			 * to element in actual handler function */
-			if (!settings.hideOnFocus) {
-				element.addEventListener("keydown", function () {
-					keydownHandler(element);
-				}, false);
-				element.addEventListener("keyup", function () {
-					keyupHandler(element);
-				}, false);
-			}
-			element.addEventListener("focus", function () {
-				focusHandler(element);
-			}, false);
-			element.addEventListener("blur", function () {
-				blurHandler(element);
-			}, false);
+			return element.addEventListener(event, fn, false);
 		} else if (element.attachEvent) {
-			/* Attach event listeners (Microsoft style - since IE < 9 does not bind the value of "this" to the element that triggered the event,
-			 * we need to call the real event handler from an anonymous event handler function and pass in the element) */
-			if (!settings.hideOnFocus) {
-				element.attachEvent("onkeydown", function () {
-					keydownHandler(element);
-				});
-				element.attachEvent("onkeyup", function () {
-					keyupHandler(element);
-				});
-			}
-			element.attachEvent("onfocus", function () {
-				focusHandler(element);
+			return element.attachEvent("on" + event, fn);
+		}
+	}
+
+	//The addEventListeners function binds the appropriate (depending on options) event listeners to the specified input or textarea element.
+	function addEventListeners(element) {
+		if (!settings.hideOnFocus) {
+			addEventListener(element, "keydown", function () {
+				keydownHandler(element);
 			});
-			element.attachEvent("onblur", function () {
-				blurHandler(element);
+			addEventListener(element, "keyup", function () {
+				keyupHandler(element);
 			});
 		}
+		addEventListener(element, "focus", function () {
+			focusHandler(element);
+		});
+		addEventListener(element, "blur", function () {
+			blurHandler(element);
+		});
 	}
 
 	/* The updatePlaceholders function checks all input and textarea elements and updates the placeholder if necessary. Elements that have been
