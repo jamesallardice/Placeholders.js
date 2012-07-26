@@ -34,15 +34,20 @@
  * <input type="text" placeholder="Placeholder text">
  *
  * To get this placeholder to function in non-supporting user agents simply call the init method when appropriate (the DOM must be ready for manipulation,
- * unless the "live" argument is true):
+ * unless the `live` option is true):
  *
  * Placeholders.init();
  *
- * The init method accepts one argument, "live". If live is truthy, the polyfill will apply to all supported input elements now and in the future, and dynamic
- * changes to the placeholder attribute value will be reflected. If live is falsy, the polyfill will only apply to those elements with a placeholder attribute
- * value in the DOM at the time the method is executed. 
+ * The init method accepts one argument, `options`. It's an object that contains settings to control the behaviour of the polyfill. Currently, only 2 options
+ * are available:
  *
- * If the live option is not used, the placeholders can be refreshed manually by calling Placeholders.refresh() */
+ * `live` - If truthy, the polyfill will apply to all supported input elements now and in the future, and dynamic
+ * changes to the placeholder attribute value will be reflected. If falsy, the polyfill will only apply to those elements with a placeholder attribute
+ * value in the DOM at the time the method is executed. If the live option is not used, the placeholders can be refreshed manually by calling `Placeholders.refresh()`. 
+ *
+ * `hideOnFocus` - If truthy, the placeholder text will not disappear when the field receives focus. This option is relatively new to the spec, but is
+ * starting to be implemented in browsers (e.g. Safari, and now Chrome). This option is set to `true` by default, since that's where browsers seem to be heading.
+ */
 
 /*jslint browser: true */
 
@@ -54,57 +59,86 @@ var Placeholders = (function () {
 	 * WARNING: If an input type is not supported by a browser, the browser will choose the default type (text) and the placeholder shim will 
 	 * apply */
 	var invalidTypes = [
-		"hidden",
-		"datetime",
-		"date",
-		"month",
-		"week",
-		"time",
-		"datetime-local",
-		"range",
-		"color",
-		"checkbox",
-		"radio",
-		"file",
-		"submit",
-		"image",
-		"reset",
-		"button"
-	],
+			"hidden",
+			"datetime",
+			"date",
+			"month",
+			"week",
+			"time",
+			"datetime-local",
+			"range",
+			"color",
+			"checkbox",
+			"radio",
+			"file",
+			"submit",
+			"image",
+			"reset",
+			"button"
+		],
 
-	//"interval" will be used if "live" is true
-		interval;
+	//Default options, can be overridden by passing object to `init`
+		settings = {
+			live: false,
+			hideOnFocus: false
+		},
+
+	//Keycodes that are not allowed when the placeholder is visible and `hideOnFocus` is `false`
+		badKeys = [37, 38, 39, 40],
+
+	//Used if `live` options is `true`
+		interval,
+
+	//Stores the input value on keydown (used when `hideOnFocus` option is `false`)
+		valueKeyDown;
+
+	// The cursorToStart function attempts to jump the cursor to before the first character of input
+	function cursorToStart(elem) {
+		var range;
+		if (elem.createTextRange) {
+			range = elem.createTextRange();
+			range.move("character", 0);
+			range.select();
+		} else if (elem.selectionStart) {
+			elem.focus();
+			elem.setSelectionRange(0, 0);
+		}
+	}
 
 	/* The focusHandler function is executed when input elements with placeholder attributes receive a focus event. If necessary, the placeholder
-	 * and its associated styles are removed from the element. */
-	function focusHandler(elem) {
+	 * and its associated styles are removed from the element. Must be bound to an element. */
+	function focusHandler() {
 
 		//If the placeholder is currently visible, remove it and its associated styles
-		if (elem.value === elem.getAttribute("placeholder")) {
+		if (this.value === this.getAttribute("placeholder")) {
 
-			/* Remove the placeholder class name. Use a regular expression to ensure the string being searched for is a complete word, and not part of a longer
-			 * string, on the off-chance a class name including that string also exists on the element */
-			elem.className = elem.className.replace(/\bplaceholderspolyfill\b/, "");
-			elem.value = "";
+			if (!settings.hideOnFocus) {
+				cursorToStart(this);
+			} else {
+				/* Remove the placeholder class name. Use a regular expression to ensure the string being searched for is a complete word, and not part of a longer
+				 * string, on the off-chance a class name including that string also exists on the element */
+				this.className = this.className.replace(/\bplaceholderspolyfill\b/, "");
+				this.value = "";
+			}
 		}
 	}
 
 	/* The blurHandler function is executed when input elements with placeholder attributes receive a blur event. If necessary, the placeholder
-	 * and its associated styles are applied to the element. */
-	function blurHandler(elem) {
+	 * and its associated styles are applied to the element. Must be bound to an element. */
+	function blurHandler() {
 
 		//If the input value is the empty string, apply the placeholder and its associated styles
-		if (elem.value === "") {
-			elem.className = elem.className + " placeholderspolyfill";
-			elem.value = elem.getAttribute("placeholder");
+		if (this.value === "") {
+			this.className = this.className + " placeholderspolyfill";
+			this.value = this.getAttribute("placeholder");
 		}
 	}
 
 	/* The submitHandler function is executed when the containing form, if any, of a given input element is submitted. If necessary, placeholders on any
 	 * input element descendants of the form are removed so that the placeholder value is not submitted as the element value. */
-	function submitHandler(elem) {
-		var inputs = elem.getElementsByTagName("input"),
-			textareas = elem.getElementsByTagName("textarea"),
+	function submitHandler() {
+		var inputs = this.getElementsByTagName("input"),
+			textareas = this.getElementsByTagName("textarea"),
 			numInputs = inputs.length,
 			num = numInputs + textareas.length,
 			element,
@@ -122,32 +156,51 @@ var Placeholders = (function () {
 		}
 	}
 
-	//The addEventListeners function binds focus and blur event listeners to the specified input or textarea element.
-	function addEventListeners(element) {
-		if (element.addEventListener) {
-			/* Attach event listeners (W3C style. Anonymous event handler used to be consistent with Microsoft style and make it easier to refer
-			 * to element in actual handler function */
-			element.addEventListener("focus", function () {
-				focusHandler(element);
-			}, false);
-			element.addEventListener("blur", function () {
-				blurHandler(element);
-			}, false);
-		} else if (element.attachEvent) {
-			/* Attach event listeners (Microsoft style - since IE < 9 does not bind the value of "this" to the element that triggered the event,
-			 * we need to call the real event handler from an anonymous event handler function and pass in the element) */
-			element.attachEvent("onfocus", function () {
-				focusHandler(element);
-			});
-			element.attachEvent("onblur", function () {
-				blurHandler(element);
-			});
+	/* The keydownHandler function is executed when the input elements with placeholder attributes receive a keydown event. It simply stores the current
+	 * value of the input (so we can kind-of simulate the poorly-supported `input` event). Used when `hideOnFocus` option is `false`. Must be bound to an element. */
+	function keydownHandler(event) {
+		valueKeyDown = this.value;
+
+		//Prevent the use of the arrow keys (try to keep the cursor before the placeholder)
+		return !(valueKeyDown === this.getAttribute("placeholder") && badKeys.indexOf(event.keyCode) > -1);
+	}
+
+	/* The keyupHandler function is executed when the input elements with placeholder attributes receive a keyup event. It kind-of simulates the native but
+	 * poorly-supported `input` event by checking if the key press has changed the value of the element. Used when `hideOnFocus` option is `false`. Must be bound to an element. */
+	function keyupHandler() {
+		if (this.value !== valueKeyDown) {
+			this.className = this.className.replace(/\bplaceholderspolyfill\b/, "");
+			this.value = this.value.replace(this.getAttribute("placeholder"), "");
+		}
+		if (this.value === "") {
+			blurHandler.call(this);
+			cursorToStart(this);
 		}
 	}
 
-	/* The updatePlaceholders function checks all input and textarea elements and updates the placeholder if necessary. Elements that have been
-	 * added to the DOM since the call to createPlaceholders will not function correctly until this function is executed. The same goes for
-	 * any existing elements whose placeholder property has been changed (via element.setAttribute("placeholder", "new") for example) */
+	//The addEventListener function binds an event handler with the context of an element to a specific event on that element. Handles old-IE and modern browsers.
+	function addEventListener(element, event, fn) {
+		if (element.addEventListener) {
+			return element.addEventListener(event, fn.bind(element), false);
+		}
+		if (element.attachEvent) {
+			return element.attachEvent("on" + event, fn.bind(element));
+		}
+	}
+
+	//The addEventListeners function binds the appropriate (depending on options) event listeners to the specified input or textarea element.
+	function addEventListeners(element) {
+		if (!settings.hideOnFocus) {
+			addEventListener(element, "keydown", keydownHandler);
+			addEventListener(element, "keyup", keyupHandler);
+		}
+		addEventListener(element, "focus", focusHandler);
+		addEventListener(element, "blur", blurHandler);
+	}
+
+	/* The updatePlaceholders function checks all input and textarea elements and updates the placeholder if necessary. Elements that have been added to the DOM since the call to 
+	 * createPlaceholders will not function correctly until this function is executed. The same goes for any existing elements whose placeholder property has been changed (via 
+	 * element.setAttribute("placeholder", "new") for example) */
 	function updatePlaceholders() {
 
 		//Declare variables, get references to all input and textarea elements
@@ -202,13 +255,6 @@ var Placeholders = (function () {
 		}
 	}
 
-	/* Make form submit event handler (using factory function to avoid JSLint error) */
-	function makeSubmitHandler(form) {
-		return function () {
-			submitHandler(form);
-		};
-	}
-
 	/* The createPlaceholders function checks all input and textarea elements currently in the DOM for the placeholder attribute. If the attribute
 	 * is present, and the element is of a type (e.g. text) that allows the placeholder attribute, it attaches the appropriate event listeners
 	 * to the element and if necessary sets its value to that of the placeholder attribute */
@@ -256,21 +302,16 @@ var Placeholders = (function () {
 
 						//The placeholdersubmit data-* attribute is set if this form has already been dealt with
 						if (!form.getAttribute("data-placeholdersubmit")) {
-							if (form.addEventListener) {
-								//The placeholdersubmit attribute wasn't set, so attach a submit event handler (W3C standard style)
-								form.addEventListener("submit", makeSubmitHandler(form), false);
-							} else if (form.attachEvent) {
-								//The placeholdersubmit attribute wasn't set, so attach a submit event handler (Microsoft IE < 9 style)
-								form.attachEvent("onsubmit", makeSubmitHandler(form));
-							}
+
+							//The placeholdersubmit attribute wasn't set, so attach a submit event handler
+							addEventListener(form, "submit", submitHandler);
 
 							//Set the placeholdersubmit attribute so we don't repeatedly bind event handlers to this form element
 							form.setAttribute("data-placeholdersubmit", "true");
 						}
 					}
 
-					/* Attach event listeners to this element. If the event handlers were bound here, and not in a separate function,
-					 * we would need to wrap the loop body in a closure to preserve the value of element for each iteration. */
+					//Attach event listeners to this element
 					addEventListeners(element);
 				}
 			}
@@ -279,18 +320,26 @@ var Placeholders = (function () {
 
 	/* The init function checks whether or not we need to polyfill the placeholder functionality. If we do, it sets up various things
 	 * needed throughout the script and then calls createPlaceholders to setup initial placeholders */
-	function init(live) {
+	function init(opts) {
 
 		//Create an input element to test for the presence of the placeholder property. If the placeholder property exists, stop.
 		var test = document.createElement("input"),
+			opt,
 			styleElem,
 			styleRules,
 			i,
 			j;
 
 		//Test input element for presence of placeholder property. If it doesn't exist, the browser does not support HTML5 placeholders
-		if (typeof test.placeholder === "undefined") {
+		if (!test.placeholder) {
 			//HTML5 placeholder attribute not supported.
+
+			//Set the options (or use defaults)
+			for (opt in opts) {
+				if (opts.hasOwnProperty(opt)) {
+					settings[opt] = opts[opt];
+				}
+			}
 
 			//Create style element for placeholder styles
 			styleElem = document.createElement("style");
@@ -319,15 +368,40 @@ var Placeholders = (function () {
 				};
 			}
 
+			/* We use Function.prototype.bind later, so make sure it exists. This is the MDN implementation, slightly modified to pass JSLint. See
+			 * https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind */
+			if (!Function.prototype.bind) {
+				Function.prototype.bind = function (oThis) {
+					if (typeof this !== "function") {
+						throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+					}
+					var aArgs = Array.prototype.slice.call(arguments, 1),
+						fToBind = this,
+						FNop = function () {},
+						fBound = function () {
+							return fToBind.apply(this instanceof FNop
+								 ? this
+								 : oThis,
+							    aArgs.concat(Array.prototype.slice.call(arguments)));
+						};
+					FNop.prototype = this.prototype;
+					fBound.prototype = new FNop();
+					return fBound;
+				};
+			}
+
 			//Create placeholders for input elements currently part of the DOM
 			createPlaceholders();
 
-			/* If the live argument is truthy, call updatePlaceholders repeatedly to keep up to date with any DOM changes.
+			/* If the `live` option is truthy, call updatePlaceholders repeatedly to keep up to date with any DOM changes.
 			 * We use an interval over events such as DOMAttrModified (which are used in some other implementations of the placeholder attribute)
 			 * since the DOM level 2 mutation events are deprecated in the level 3 spec. */
-			if (live) {
+			if (settings.live) {
 				interval = setInterval(updatePlaceholders, 100);
 			}
+
+			//Placeholder attribute was successfully polyfilled :)
+			return true;
 		}
 
 		//Placeholder attribute already supported by browser :)
