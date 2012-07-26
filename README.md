@@ -55,6 +55,8 @@ The `refresh` method can be called at any time to update the placeholders define
  - Because the polyfill uses the `value` attribute to display the placeholder, users will be unable to enter the placeholder value as valid input.
 
  - (When the `hideOnFocus` option is `false`) The cursor position can currently be changed after focus, so you can insert characters in the middle of the placeholder value (causing the placeholder not to hide).
+
+ - The placeholder text cannot be styled. The ability to do so is currently non-standard, but is present in WebKit (with the `::-webkit-input-placeholder` pseudoelement) and Firefox (with the `:-moz-placeholder` pseudoclass). This feature will not be added to the polyfill until some standard is defined.
     
 ##Supported Browsers
 
