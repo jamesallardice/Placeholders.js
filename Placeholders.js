@@ -103,31 +103,31 @@ var Placeholders = (function () {
 	}
 
 	/* The focusHandler function is executed when input elements with placeholder attributes receive a focus event. If necessary, the placeholder
-	 * and its associated styles are removed from the element. */
-	function focusHandler(elem) {
+	 * and its associated styles are removed from the element. Must be bound to an element. */
+	function focusHandler(event) {
 
 		//If the placeholder is currently visible, remove it and its associated styles
-		if (elem.value === elem.getAttribute("placeholder")) {
+		if (this.value === this.getAttribute("placeholder")) {
 
 			if (!settings.hideOnFocus) {
-				cursorToStart(elem);
+				cursorToStart(this);
 			} else {
 				/* Remove the placeholder class name. Use a regular expression to ensure the string being searched for is a complete word, and not part of a longer
 				 * string, on the off-chance a class name including that string also exists on the element */
-				elem.className = elem.className.replace(/\bplaceholderspolyfill\b/, "");
-				elem.value = "";
+				this.className = this.className.replace(/\bplaceholderspolyfill\b/, "");
+				this.value = "";
 			}
 		}
 	}
 
 	/* The blurHandler function is executed when input elements with placeholder attributes receive a blur event. If necessary, the placeholder
-	 * and its associated styles are applied to the element. */
-	function blurHandler(elem) {
+	 * and its associated styles are applied to the element. Must be bound to an element. */
+	function blurHandler(event) {
 
 		//If the input value is the empty string, apply the placeholder and its associated styles
-		if (elem.value === "") {
-			elem.className = elem.className + " placeholderspolyfill";
-			elem.value = elem.getAttribute("placeholder");
+		if (this.value === "") {
+			this.className = this.className + " placeholderspolyfill";
+			this.value = this.getAttribute("placeholder");
 		}
 	}
 
@@ -154,55 +154,47 @@ var Placeholders = (function () {
 	}
 
 	/* The keydownHandler function is executed when the input elements with placeholder attributes receive a keydown event. It simply stores the current
-	 * value of the input (so we can kind-of simulate the poorly-supported `input` event). Used when `hideOnFocus` option is `false`. */
-	function keydownHandler(elem) {
-		valueKeyDown = elem.value;
+	 * value of the input (so we can kind-of simulate the poorly-supported `input` event). Used when `hideOnFocus` option is `false`. Must be bound to an element. */
+	function keydownHandler(event) {
+		valueKeyDown = this.value;
 	}
 
 	/* The keyupHandler function is executed when the input elements with placeholder attributes receive a keyup event. It kind-of simulates the native but
-	 * poorly-supported `input` event by checking if the key press has changed the value of the element. Used when `hideOnFocus` option is `false`. */
-	function keyupHandler(elem) {
-		if (elem.value !== valueKeyDown) {
-			elem.className = elem.className.replace(/\bplaceholderspolyfill\b/, "");
-			elem.value = elem.value.replace(elem.getAttribute("placeholder"), "");
+	 * poorly-supported `input` event by checking if the key press has changed the value of the element. Used when `hideOnFocus` option is `false`. Must be bound to an element. */
+	function keyupHandler(event) {
+		if (this.value !== valueKeyDown) {
+			this.className = this.className.replace(/\bplaceholderspolyfill\b/, "");
+			this.value = this.value.replace(this.getAttribute("placeholder"), "");
 		}
-		if (elem.value === "") {
-			blurHandler(elem);
-			cursorToStart(elem);
+		if (this.value === "") {
+			blurHandler.call(this);
+			cursorToStart(this);
 		}
 	}
 
-	//The addEventListener function binds an event handler to a specific event on the specified element. Handles old-IE and modern browsers.
+	//The addEventListener function binds an event handler with the context of an element to a specific event on that element. Handles old-IE and modern browsers.
 	function addEventListener(element, event, fn) {
 		if (element.addEventListener) {
-			return element.addEventListener(event, fn, false);
+			return element.addEventListener(event, fn.bind(element), false);
 		}
 		if (element.attachEvent) {
-			return element.attachEvent("on" + event, fn);
+			return element.attachEvent("on" + event, fn.bind(element));
 		}
 	}
 
 	//The addEventListeners function binds the appropriate (depending on options) event listeners to the specified input or textarea element.
 	function addEventListeners(element) {
 		if (!settings.hideOnFocus) {
-			addEventListener(element, "keydown", function () {
-				keydownHandler(element);
-			});
-			addEventListener(element, "keyup", function () {
-				keyupHandler(element);
-			});
+			addEventListener(element, "keydown", keydownHandler);
+			addEventListener(element, "keyup", keyupHandler);
 		}
-		addEventListener(element, "focus", function () {
-			focusHandler(element);
-		});
-		addEventListener(element, "blur", function () {
-			blurHandler(element);
-		});
+		addEventListener(element, "focus", focusHandler);
+		addEventListener(element, "blur", blurHandler);
 	}
 
-	/* The updatePlaceholders function checks all input and textarea elements and updates the placeholder if necessary. Elements that have been
-	 * added to the DOM since the call to createPlaceholders will not function correctly until this function is executed. The same goes for
-	 * any existing elements whose placeholder property has been changed (via element.setAttribute("placeholder", "new") for example) */
+	/* The updatePlaceholders function checks all input and textarea elements and updates the placeholder if necessary. Elements that have been added to the DOM since the call to 
+	 * createPlaceholders will not function correctly until this function is executed. The same goes for any existing elements whose placeholder property has been changed (via 
+	 * element.setAttribute("placeholder", "new") for example) */
 	function updatePlaceholders() {
 
 		//Declare variables, get references to all input and textarea elements
@@ -311,13 +303,9 @@ var Placeholders = (function () {
 
 						//The placeholdersubmit data-* attribute is set if this form has already been dealt with
 						if (!form.getAttribute("data-placeholdersubmit")) {
-							if (form.addEventListener) {
-								//The placeholdersubmit attribute wasn't set, so attach a submit event handler (W3C standard style)
-								form.addEventListener("submit", makeSubmitHandler(form), false);
-							} else if (form.attachEvent) {
-								//The placeholdersubmit attribute wasn't set, so attach a submit event handler (Microsoft IE < 9 style)
-								form.attachEvent("onsubmit", makeSubmitHandler(form));
-							}
+
+							//The placeholdersubmit attribute wasn't set, so attach a submit event handler
+							addEventListener(form, "submit", submitHandler);
 
 							//Set the placeholdersubmit attribute so we don't repeatedly bind event handlers to this form element
 							form.setAttribute("data-placeholdersubmit", "true");
@@ -378,6 +366,28 @@ var Placeholders = (function () {
 						if (this[i] === obj) { return i; }
 					}
 					return -1;
+				};
+			}
+
+			/* We use Function.prototype.bind later, so make sure it exists. This is the MDN implementation, slightly modified to pass JSLint. See
+			 * https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind */
+			if (!Function.prototype.bind) {
+				Function.prototype.bind = function (oThis) {
+					if (typeof this !== "function") {
+						throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+					}
+					var aArgs = Array.prototype.slice.call(arguments, 1),
+						fToBind = this,
+						FNop = function () {},
+						fBound = function () {
+							return fToBind.apply(this instanceof FNop
+								 ? this
+								 : oThis,
+							    aArgs.concat(Array.prototype.slice.call(arguments)));
+						};
+					FNop.prototype = this.prototype;
+					fBound.prototype = new FNop();
+					return fBound;
 				};
 			}
 
