@@ -107,7 +107,7 @@ var Placeholders = (function () {
 
 	/* The focusHandler function is executed when input elements with placeholder attributes receive a focus event. If necessary, the placeholder
 	 * and its associated styles are removed from the element. Must be bound to an element. */
-	function focusHandler(event) {
+	function focusHandler() {
 
 		//If the placeholder is currently visible, remove it and its associated styles
 		if (this.value === this.getAttribute("placeholder")) {
@@ -125,7 +125,7 @@ var Placeholders = (function () {
 
 	/* The blurHandler function is executed when input elements with placeholder attributes receive a blur event. If necessary, the placeholder
 	 * and its associated styles are applied to the element. Must be bound to an element. */
-	function blurHandler(event) {
+	function blurHandler() {
 
 		//If the input value is the empty string, apply the placeholder and its associated styles
 		if (this.value === "") {
@@ -136,9 +136,9 @@ var Placeholders = (function () {
 
 	/* The submitHandler function is executed when the containing form, if any, of a given input element is submitted. If necessary, placeholders on any
 	 * input element descendants of the form are removed so that the placeholder value is not submitted as the element value. */
-	function submitHandler(elem) {
-		var inputs = elem.getElementsByTagName("input"),
-			textareas = elem.getElementsByTagName("textarea"),
+	function submitHandler() {
+		var inputs = this.getElementsByTagName("input"),
+			textareas = this.getElementsByTagName("textarea"),
 			numInputs = inputs.length,
 			num = numInputs + textareas.length,
 			element,
@@ -167,7 +167,7 @@ var Placeholders = (function () {
 
 	/* The keyupHandler function is executed when the input elements with placeholder attributes receive a keyup event. It kind-of simulates the native but
 	 * poorly-supported `input` event by checking if the key press has changed the value of the element. Used when `hideOnFocus` option is `false`. Must be bound to an element. */
-	function keyupHandler(event) {
+	function keyupHandler() {
 		if (this.value !== valueKeyDown) {
 			this.className = this.className.replace(/\bplaceholderspolyfill\b/, "");
 			this.value = this.value.replace(this.getAttribute("placeholder"), "");
