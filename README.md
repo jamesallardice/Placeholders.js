@@ -4,15 +4,14 @@ Placeholders.js is a polyfill (or shim, or whatever you like to call it) for the
 
 ##Features
 
- - Works on both `input` and `textarea` elements</li>
- - Works by finding `placeholder` attributes on elements, so there's no need to call it repeatedly for every element. Just add the placeholder attribute as if it were supported natively.</li>
- - Simulates native styles for the placeholders but keeps any custom styles you've defined on the elements</li>
- - Placeholder values are not submitted as form data if the element is part of a form</li>
- - Works for elements that are added to the DOM after the page has loaded, and also for elements whose placeholder value changes after the page has loaded</li>
- - Wide range of browsers supported, including IE6</li>
- - No dependencies (so no need to include jQuery, unlike most placeholder polyfill scripts)</li>
- - All of the above in just over 2kB when minified, and less than 1kB when gzipped!</li>
- - Passes <a href="http://www.jslint.com/">JSLint</a> with no errors or warnings</li>
+ - Works on both `input` and `textarea` elements
+ - Works by finding `placeholder` attributes on elements, so there's no need to call it repeatedly for every element. Just add the placeholder attribute as if it were supported natively.
+ - Simulates native styles for the placeholders but keeps any custom styles you've defined on the elements
+ - Placeholder values are not submitted as form data if the element is part of a form
+ - Works for elements that are added to the DOM after the page has loaded, and also for elements whose placeholder value changes after the page has loaded
+ - Wide range of browsers supported, including IE6
+ - No dependencies (so no need to include jQuery, unlike most placeholder polyfill scripts)
+ - All of the above in just over 3kB when minified, and about 1kB when gzipped!
 
 ##How do I use it?
 
