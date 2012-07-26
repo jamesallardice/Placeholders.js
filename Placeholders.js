@@ -153,10 +153,6 @@ var Placeholders = (function () {
 		}
 	}
 
-	function clickHandler(elem) {
-		return elem.value !== elem.getAttribute("placeholder");
-	}
-
 	/* The keydownHandler function is executed when the input elements with placeholder attributes receive a keydown event. It simply stores the current
 	 * value of the input (so we can kind-of simulate the poorly-supported `input` event). Used when `hideOnFocus` option is `false`. */
 	function keydownHandler(elem) {
@@ -180,7 +176,8 @@ var Placeholders = (function () {
 	function addEventListener(element, event, fn) {
 		if (element.addEventListener) {
 			return element.addEventListener(event, fn, false);
-		} else if (element.attachEvent) {
+		}
+		if (element.attachEvent) {
 			return element.attachEvent("on" + event, fn);
 		}
 	}
@@ -347,7 +344,7 @@ var Placeholders = (function () {
 			j;
 
 		//Test input element for presence of placeholder property. If it doesn't exist, the browser does not support HTML5 placeholders
-		if (typeof test.placeholder === "undefined") {
+		if (!test.placeholder) {
 			//HTML5 placeholder attribute not supported.
 
 			//Set the options (or use defaults)
