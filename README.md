@@ -4,15 +4,14 @@ Placeholders.js is a polyfill (or shim, or whatever you like to call it) for the
 
 ##Features
 
- - Works on both `input` and `textarea` elements</li>
- - Works by finding `placeholder` attributes on elements, so there's no need to call it repeatedly for every element. Just add the placeholder attribute as if it were supported natively.</li>
- - Simulates native styles for the placeholders but keeps any custom styles you've defined on the elements</li>
- - Placeholder values are not submitted as form data if the element is part of a form</li>
- - Works for elements that are added to the DOM after the page has loaded, and also for elements whose placeholder value changes after the page has loaded</li>
- - Wide range of browsers supported, including IE6</li>
- - No dependencies (so no need to include jQuery, unlike most placeholder polyfill scripts)</li>
- - All of the above in just over 2kB when minified, and less than 1kB when gzipped!</li>
- - Passes <a href="http://www.jslint.com/">JSLint</a> with no errors or warnings</li>
+ - Works on both `input` and `textarea` elements
+ - Works by finding `placeholder` attributes on elements, so there's no need to call it repeatedly for every element. Just add the placeholder attribute as if it were supported natively.
+ - Simulates native styles for the placeholders but keeps any custom styles you've defined on the elements
+ - Placeholder values are not submitted as form data if the element is part of a form
+ - Works for elements that are added to the DOM after the page has loaded, and also for elements whose placeholder value changes after the page has loaded
+ - Wide range of browsers supported, including IE6
+ - No dependencies (so no need to include jQuery, unlike most placeholder polyfill scripts)
+ - All of the above in just over 3kB when minified, and about 1kB when gzipped!
 
 ##How do I use it?
 
@@ -29,9 +28,18 @@ That's all there is to it! Browsers that alreay support the placeholder attribut
 
 ##The `init` method
 
-The `init` method is all that you need to call to get the polyfill working. It accepts one Boolean argument, `live`. If `true`, this argument causes the polyfill to apply to all `input` and `textarea` elements, both now and in the future. This means if you insert a new element into the DOM, its placeholder attribute will function as expected. If the value of a placeholder attribute is modified by code sometime after the `init` method has executed, `live` will cause the changes to be reflected. If the `live` argument is `false`, the new element would not display its placeholder, and modified placeholder values would not function correctly.
+The `init` method is all that you need to call to get the polyfill working. It accepts one argument, `settings`. The `settings` argument should be an object. It currently supports two properties:
 
-    Placeholders.init(true); //Apply to future and modified elements too
+ - `live` - If `true`, this option causes the polyfill to apply to all `input` and `textarea` elements, both now and in the future. This means if you insert a new element into the DOM, its placeholder attribute will function as expected. If the value of a placeholder attribute is modified by code sometime after the `init` method has executed, `live` will cause the changes to be reflected. If the `live` option is `false`, or not specified, the new element would not display its placeholder, and modified placeholder values would not function correctly. **Default: `false`**.
+
+ - `hideOnFocus` - If `true`, this option will cause the placeholder to disappear when the element receives focus. If `false`, or not specified, the placeholder will disappear when some input is entered into the element. **Default: `false`**.
+
+Here's an example call to the `init` method:
+
+    Placeholders.init({
+    	live: true, //Apply to future and modified elements too
+    	hideOnFocus: true //Hide the placeholder when the element receives focus
+    });
     
 ##The `refresh` method
 
@@ -41,7 +49,13 @@ The `refresh` method can be called at any time to update the placeholders define
     
 ##Known Issues
 
-When applying a placeholder to an `input` element of type `password`, the default "hidden" character is used instead of plain text. This issue has been addressed in an experimental version of the polyfill. It works by inserting a new `input` element of type `text` into the DOM just before the `password` input. The new element and the original element are then switched between as necessary. For this reason, you may experience issues with any event handlers bound to the original element, and also with any styles applied to the original element.
+ - When applying a placeholder to an `input` element of type `password`, the default "hidden" character is used instead of plain text. This issue has been addressed in an experimental version of the polyfill. It works by inserting a new `input` element of type `text` into the DOM just before the `password` input. The new element and the original element are then switched between as necessary. For this reason, you may experience issues with any event handlers bound to the original element, and also with any styles applied to the original element.
+
+ - Because the polyfill uses the `value` attribute to display the placeholder, users will be unable to enter the placeholder value as valid input.
+
+ - (When the `hideOnFocus` option is `false`) The cursor position can currently be changed after focus, so you can insert characters in the middle of the placeholder value (causing the placeholder not to hide).
+
+ - The placeholder text cannot be styled. The ability to do so is currently non-standard, but is present in WebKit (with the `::-webkit-input-placeholder` pseudoelement), Firefox 4+ (with the `:-moz-placeholder` pseudoclass) and Internet Explorer 10 (with the `:-ms-input-placeholder` pseudoclass). This feature will not be added to the polyfill until some standard is defined.
     
 ##Supported Browsers
 
