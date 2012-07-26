@@ -162,7 +162,7 @@ var Placeholders = (function () {
 		valueKeyDown = this.value;
 
 		//Prevent the use of the arrow keys (try to keep the cursor before the placeholder)
-		return !(valueKeyDown === this.getAttribute("placeholder") && badKeys.indexOf(event.keyCode) > -1)
+		return !(valueKeyDown === this.getAttribute("placeholder") && badKeys.indexOf(event.keyCode) > -1);
 	}
 
 	/* The keyupHandler function is executed when the input elements with placeholder attributes receive a keyup event. It kind-of simulates the native but
@@ -253,13 +253,6 @@ var Placeholders = (function () {
 				}
 			}
 		}
-	}
-
-	/* Make form submit event handler (using factory function to avoid JSLint error) */
-	function makeSubmitHandler(form) {
-		return function () {
-			submitHandler(form);
-		};
 	}
 
 	/* The createPlaceholders function checks all input and textarea elements currently in the DOM for the placeholder attribute. If the attribute
