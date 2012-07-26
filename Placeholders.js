@@ -83,6 +83,9 @@ var Placeholders = (function () {
 			hideOnFocus: false
 		},
 
+	//Keycodes that are not allowed when the placeholder is visible and `hideOnFocus` is `false`
+		badKeys = [37, 38, 39, 40],
+
 	//Used if `live` options is `true`
 		interval,
 
@@ -157,6 +160,9 @@ var Placeholders = (function () {
 	 * value of the input (so we can kind-of simulate the poorly-supported `input` event). Used when `hideOnFocus` option is `false`. Must be bound to an element. */
 	function keydownHandler(event) {
 		valueKeyDown = this.value;
+
+		//Prevent the use of the arrow keys (try to keep the cursor before the placeholder)
+		return !(valueKeyDown === this.getAttribute("placeholder") && badKeys.indexOf(event.keyCode) > -1)
 	}
 
 	/* The keyupHandler function is executed when the input elements with placeholder attributes receive a keyup event. It kind-of simulates the native but
