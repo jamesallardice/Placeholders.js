@@ -331,7 +331,7 @@ var Placeholders = (function () {
 			j;
 
 		//Test input element for presence of placeholder property. If it doesn't exist, the browser does not support HTML5 placeholders
-		if (!test.placeholder) {
+		if (typeof test.placeholder === "undefined") {
 			//HTML5 placeholder attribute not supported.
 
 			//Set the options (or use defaults)
