@@ -4,15 +4,16 @@ Placeholders.js is a polyfill (or shim, or whatever you like to call it) for the
 
 ##Features
 
- - Works on both `input` and `textarea` elements
- - Works by finding `placeholder` attributes on elements, so there's no need to call it repeatedly for every element. Just add the placeholder attribute as if it were supported natively.
- - Simulates native styles for the placeholders but keeps any custom styles you've defined on the elements
- - Placeholder values are not submitted as form data if the element is part of a form
- - Works for elements that are added to the DOM after the page has loaded, and also for elements whose placeholder value changes after the page has loaded
- - Works properly for `input` elements of the `password` type in all browsers except Internet Explorer 8 and below, in which the placeholder appears as masked text
- - Wide range of browsers supported, including IE6
- - No dependencies (so no need to include jQuery, unlike most placeholder polyfill scripts)
- - All of the above in just 4kB when minified, and about 1kB when gzipped!
+ - Works on both **`input` and `textarea` elements**
+ 
+ - Works by finding `placeholder` attributes on elements, so there's no need to call it repeatedly for every element. Just add the placeholder attribute **as if it were supported natively**.
+ - **Simulates native styles** for the placeholders but keeps any custom styles you've defined on the elements
+ - Placeholder values are **not submitted as form data** if the element is part of a form
+ - Works for elements that are **added to the DOM after the page has loaded**, and also for elements whose placeholder value changes after the page has loaded
+ - Works properly for `input` elements of the **`password` type** in all browsers except Internet Explorer 8 and below, in which the placeholder appears as masked text
+ - Wide range of browsers supported, **including IE6**
+ - **No dependencies** (so no need to include jQuery, unlike most placeholder polyfill scripts)
+ - All of the above in just 4kB when minified, and about **1kB when gzipped**!
 
 ##How do I use it?
 
@@ -75,3 +76,9 @@ Placeholders.js aims to support the widest range of browsers possible. The idea 
  - K-Meleon 0.7+ (with Placeholders.js)
 
 Do you use some obscure browser that doesn't have native `placeholder` attribute support? If so, please let me know so I can make sure Placeholders.js works with it.
+
+##Downloads
+
+You can download the repository at various states from the [tags page](https://github.com/jamesallardice/Placeholders.js/tags), or with the following links:
+
+[Current version (1.1)](https://github.com/jamesallardice/Placeholders.js/zipball/v1.1) | [1.0](https://github.com/jamesallardice/Placeholders.js/zipball/v1.0)
