@@ -100,6 +100,8 @@ var Placeholders = (function () {
 	 * and its associated styles are removed from the element. Must be bound to an element. */
 	function focusHandler() {
 
+		var type;
+
 		//If the placeholder is currently visible, remove it and its associated styles
 		if (this.value === this.getAttribute("placeholder")) {
 
@@ -110,6 +112,12 @@ var Placeholders = (function () {
 				 * string, on the off-chance a class name including that string also exists on the element */
 				this.className = this.className.replace(/\bplaceholderspolyfill\b/, "");
 				this.value = "";
+
+				// Check if we need to switch the input type (this is the case if it's a password input)
+				type = this.getAttribute("data-placeholdertype");
+				if (type) {
+					this.type = type;
+				}
 			}
 		}
 	}
@@ -118,10 +126,18 @@ var Placeholders = (function () {
 	 * and its associated styles are applied to the element. Must be bound to an element. */
 	function blurHandler() {
 
+		var type;
+
 		//If the input value is the empty string, apply the placeholder and its associated styles
 		if (this.value === "") {
 			this.className = this.className + " placeholderspolyfill";
 			this.value = this.getAttribute("placeholder");
+
+			// Check if we need to switch the input type (this is the case if it's a password input)
+			type = this.getAttribute("data-placeholdertype");
+			if (type) {
+				this.type = "text";
+			}
 		}
 	}
 
@@ -159,11 +175,23 @@ var Placeholders = (function () {
 	/* The keyupHandler function is executed when the input elements with placeholder attributes receive a keyup event. It kind-of simulates the native but
 	 * poorly-supported `input` event by checking if the key press has changed the value of the element. Used when `hideOnFocus` option is `false`. Must be bound to an element. */
 	function keyupHandler() {
+
+		var type;
+
 		if (this.value !== valueKeyDown) {
+
+			// Remove the placeholder
 			this.className = this.className.replace(/\bplaceholderspolyfill\b/, "");
 			this.value = this.value.replace(this.getAttribute("placeholder"), "");
+
+			// Check if we need to switch the input type (this is the case if it's a password input)
+			type = this.getAttribute("data-placeholdertype");
+			if (type) {
+				this.type = type;
+			}
 		}
 		if (this.value === "") {
+
 			blurHandler.call(this);
 			cursorToStart(this);
 		}
@@ -275,6 +303,16 @@ var Placeholders = (function () {
 
 				//The input type does support placeholders. Check that the placeholder attribute has been given a value
 				if (placeholder) {
+
+					// If the element type is "password", attempt to change it to "text" so we can display the placeholder value in plain text
+					if (element.type === "password") {
+
+						// The `type` property is read-only in IE < 9, so in those cases we just move on. The placeholder will be displayed masked
+						try {
+							element.type = "text";
+							element.setAttribute("data-placeholdertype", "password");
+						} catch (e) {}
+					}
 
 					//The placeholder attribute has a value. Keep track of the current placeholder value in an HTML5 data-* attribute
 					element.setAttribute("data-currentplaceholder", placeholder);
