@@ -11,7 +11,7 @@ Placeholders.js is a polyfill (or shim, or whatever you like to call it) for the
  - Works for elements that are added to the DOM after the page has loaded, and also for elements whose placeholder value changes after the page has loaded
  - Wide range of browsers supported, including IE6
  - No dependencies (so no need to include jQuery, unlike most placeholder polyfill scripts)
- - All of the above in just over 3kB when minified, and about 1kB when gzipped!
+ - All of the above in just 3kB when minified, and about 1kB when gzipped!
 
 ##How do I use it?
 
@@ -49,7 +49,7 @@ The `refresh` method can be called at any time to update the placeholders define
     
 ##Known Issues
 
- - When applying a placeholder to an `input` element of type `password`, the default "hidden" character is used instead of plain text. This issue has been addressed in an experimental version of the polyfill. It works by inserting a new `input` element of type `text` into the DOM just before the `password` input. The new element and the original element are then switched between as necessary. For this reason, you may experience issues with any event handlers bound to the original element, and also with any styles applied to the original element.
+ - When applying a placeholder to an `input` element of type `password`, the default "hidden" character is used instead of plain text. I attempted to address this in an experimental version of the polyfill, but it didn't work very well. If you have any ideas as to how this could be solved effectively, I'd love to hear them!
 
  - Because the polyfill uses the `value` attribute to display the placeholder, users will be unable to enter the placeholder value as valid input.
 
