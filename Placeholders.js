@@ -55,26 +55,17 @@ var Placeholders = (function () {
 
 	"use strict";
 
-	/* List of input types that do not support the placeholder attribute. We don't want to modify any input elements with one of these types.
+	/* List of input types that support the placeholder attribute. We only want to modify input elements with one of these types.
 	 * WARNING: If an input type is not supported by a browser, the browser will choose the default type (text) and the placeholder shim will 
 	 * apply */
-	var invalidTypes = [
-			"hidden",
-			"datetime",
-			"date",
-			"month",
-			"week",
-			"time",
-			"datetime-local",
-			"range",
-			"color",
-			"checkbox",
-			"radio",
-			"file",
-			"submit",
-			"image",
-			"reset",
-			"button"
+	var validTypes = [
+			"text",
+			"search",
+			"url",
+			"tel",
+			"email",
+			"password",
+			"number"
 		],
 
 	//Default options, can be overridden by passing object to `init`
@@ -223,7 +214,7 @@ var Placeholders = (function () {
 			newPlaceholder = element.getAttribute("placeholder");
 
 			//Check whether the current input element is of a type that supports the placeholder attribute
-			if (invalidTypes.indexOf(element.type) === -1) {
+			if (validTypes.indexOf(element.type) > -1) {
 
 				//The input type does support the placeholder attribute. Check whether the placeholder attribute has a value
 				if (newPlaceholder) {
@@ -280,7 +271,7 @@ var Placeholders = (function () {
 			placeholder = element.getAttribute("placeholder");
 
 			//Check whether or not the current element is of a type that allows the placeholder attribute
-			if (invalidTypes.indexOf(element.type) === -1) {
+			if (validTypes.indexOf(element.type) > -1) {
 
 				//The input type does support placeholders. Check that the placeholder attribute has been given a value
 				if (placeholder) {
