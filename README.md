@@ -2,6 +2,8 @@
 
 Placeholders.js is a polyfill (or shim, or whatever you like to call it) for the HTML5 placeholder attribute, as defined in the <a href="http://dev.w3.org/html5/spec/Overview.html#attr-input-placeholder">HTML5 draft specification</a>. Placeholder attributes are valid on `input` elements of various types and `textarea` elements.
 
+Placeholders.js is licensed under the [MIT License](http://en.wikipedia.org/wiki/MIT_License). See the unminified file for the full license text.
+
 ##Features
 
  - Works on both **`input` and `textarea` elements**
