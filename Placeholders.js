@@ -196,6 +196,29 @@ var Placeholders = (function () {
 			cursorToStart(this);
 		}
 	}
+    // the changeHandler function is to watch the input element's placeholder attribute change
+    function changeHandler(){
+
+        var element = this,
+            oldPlaceholder,
+            newPlaceholder;
+        if(window.event.propertyName == 'placeholder'){
+            //The placeholder attribute has a value. Get the value of the current placeholder data-* attribute
+            oldPlaceholder = element.getAttribute("data-currentplaceholder");
+            newPlaceholder = element.getAttribute("placeholder");
+
+            //The placeholder attribute value has changed so we need to update. Check whether the placeholder should currently be visible.
+            if (element.value === oldPlaceholder ) {
+
+                //The placeholder should be visible so change the element value to that of the placeholder attribute and set placeholder styles
+                element.value = newPlaceholder;
+                element.className = element.className + " placeholderspolyfill";
+            }
+
+            //Update the value of the current placeholder data-* attribute to reflect the new placeholder value
+            element.setAttribute("data-currentplaceholder", newPlaceholder);
+        }
+    }
 
 	//The addEventListener function binds an event handler with the context of an element to a specific event on that element. Handles old-IE and modern browsers.
 	function addEventListener(element, event, fn) {
@@ -215,137 +238,93 @@ var Placeholders = (function () {
 		}
 		addEventListener(element, "focus", focusHandler);
 		addEventListener(element, "blur", blurHandler);
+        /* listen the placeholder attribute change by 'onpropertychange' event in ie<9
+         * http://help.dottoro.com/ljufknus.php */
+        if (element.attachEvent) {
+            element.attachEvent("onpropertychange", changeHandler.bind(element));
+        }
 	}
+	 /* The createPlaceholders function checks all input and textarea elements currently in the DOM for the placeholder attribute. If the attribute
+     * is present, and the element is of a type (e.g. text) that allows the placeholder attribute, it attaches the appropriate event listeners
+     * to the element and if necessary sets its value to that of the placeholder attribute */
+    function createPlaceholders() {
+        createPlaceholder(document.getElementsByTagName("input"));
+        createPlaceholder(document.getElementsByTagName("textarea"));
+    }
 
-	/* The updatePlaceholders function checks all input and textarea elements and updates the placeholder if necessary. Elements that have been added to the DOM since the call to 
-	 * createPlaceholders will not function correctly until this function is executed. The same goes for any existing elements whose placeholder property has been changed (via 
-	 * element.setAttribute("placeholder", "new") for example) */
-	function updatePlaceholders() {
+    /* The createPlaceholder function check signal element for the placeholder attribute.
+     * If the attribute is present, and the element is of a type (e.g. text) that allows the placeholder attribute, it attaches the appropriate event listeners
+     * to the element and if necessary sets its value to that of the placeholder attribute */
+    function createPlaceholder(element){
 
-		//Declare variables, get references to all input and textarea elements
-		var inputs = document.getElementsByTagName("input"),
-			textareas = document.getElementsByTagName("textarea"),
-			numInputs = inputs.length,
-			num = numInputs + textareas.length,
-			i,
-			element,
-			oldPlaceholder,
-			newPlaceholder;
 
-		//Iterate over all input and textarea elements and apply/update the placeholder polyfill if necessary
-		for (i = 0; i < num; i += 1) {
+        // for where argument is multiple elements
+        var i,num;
+        if(typeof element.length !== "undefined"){
+            num = element.length;
+            for(i = 0; i < num; i++){
+                createPlaceholder(element[i]);
+            }
+            return ;
+        }
 
-			//Get the next element from either the input NodeList or the textarea NodeList, depending on how many elements we've already looped through
-			element = (i < numInputs) ? inputs[i] : textareas[i - numInputs];
+        //Get the value of the placeholder attribute
+        var placeholder = element.getAttribute("placeholder"),
+            form,
+            oldPlaceholder;
 
-			//Get the value of the placeholder attribute
-			newPlaceholder = element.getAttribute("placeholder");
+        //Check whether or not the current element is of a type that allows the placeholder attribute
+        if (validTypes.indexOf(element.type) > -1) {
 
-			//Check whether the current input element is of a type that supports the placeholder attribute
-			if (validTypes.indexOf(element.type) > -1) {
+            //The input type does support placeholders. Check that the placeholder attribute has been given a value
+            if (placeholder) {
 
-				//The input type does support the placeholder attribute. Check whether the placeholder attribute has a value
-				if (newPlaceholder) {
+                // If the element type is "password", attempt to change it to "text" so we can display the placeholder value in plain text
+                if (element.type === "password") {
 
-					//The placeholder attribute has a value. Get the value of the current placeholder data-* attribute
-					oldPlaceholder = element.getAttribute("data-currentplaceholder");
+                    // The `type` property is read-only in IE < 9, so in those cases we just move on. The placeholder will be displayed masked
+                    try {
+                        element.type = "text";
+                        element.setAttribute("data-placeholdertype", "password");
+                    } catch (e) {}
+                }
 
-					//Check whether the placeholder attribute value has changed
-					if (newPlaceholder !== oldPlaceholder) {
+                // used for check if the input element's placeholder has been created
+                oldPlaceholder =  element.getAttribute("data-currentplaceholder") || "";
 
-						//The placeholder attribute value has changed so we need to update. Check whether the placeholder should currently be visible.
-						if (element.value === oldPlaceholder || element.value === newPlaceholder || !element.value) {
+                //The placeholder attribute has a value. Keep track of the current placeholder value in an HTML5 data-* attribute
+                element.setAttribute("data-currentplaceholder", placeholder);
 
-							//The placeholder should be visible so change the element value to that of the placeholder attribute and set placeholder styles
-							element.value = newPlaceholder;
-							element.className = element.className + " placeholderspolyfill";
-						}
+                //If the value of the element is the empty string set the value to that of the placeholder attribute and apply the placeholder styles
+                if (element.value === "" || element.value === placeholder || element.value == oldPlaceholder) {
+                    element.className = element.className + " placeholderspolyfill";
+                    element.value = placeholder;
+                }
 
-						//If the current placeholder data-* attribute has no value the element wasn't present in the DOM when event handlers were bound, so bind them now
-						if (!oldPlaceholder) {
-							addEventListeners(element);
-						}
+                //If the element has a containing form bind to the submit event so we can prevent placeholder values being submitted as actual values
+                if (element.form) {
 
-						//Update the value of the current placeholder data-* attribute to reflect the new placeholder value
-						element.setAttribute("data-currentplaceholder", newPlaceholder);
-					}
-				}
-			}
-		}
-	}
+                    //Get a reference to the containing form element (if present)
+                    form = element.form;
 
-	/* The createPlaceholders function checks all input and textarea elements currently in the DOM for the placeholder attribute. If the attribute
-	 * is present, and the element is of a type (e.g. text) that allows the placeholder attribute, it attaches the appropriate event listeners
-	 * to the element and if necessary sets its value to that of the placeholder attribute */
-	function createPlaceholders() {
+                    //The placeholdersubmit data-* attribute is set if this form has already been dealt with
+                    if (!form.getAttribute("data-placeholdersubmit")) {
 
-		//Declare variables and get references to all input and textarea elements
-		var inputs = document.getElementsByTagName("input"),
-			textareas = document.getElementsByTagName("textarea"),
-			numInputs = inputs.length,
-			num = numInputs + textareas.length,
-			i,
-			element,
-			form,
-			placeholder;
+                        //The placeholdersubmit attribute wasn't set, so attach a submit event handler
+                        addEventListener(form, "submit", submitHandler);
 
-		//Iterate over all input elements and apply placeholder polyfill if necessary
-		for (i = 0; i < num; i += 1) {
+                        //Set the placeholdersubmit attribute so we don't repeatedly bind event handlers to this form element
+                        form.setAttribute("data-placeholdersubmit", "true");
+                    }
+                }
 
-			//Get the next element from either the input NodeList or the textarea NodeList, depending on how many elements we've already looped through
-			element = (i < numInputs) ? inputs[i] : textareas[i - numInputs];
-
-			//Get the value of the placeholder attribute
-			placeholder = element.getAttribute("placeholder");
-
-			//Check whether or not the current element is of a type that allows the placeholder attribute
-			if (validTypes.indexOf(element.type) > -1) {
-
-				//The input type does support placeholders. Check that the placeholder attribute has been given a value
-				if (placeholder) {
-
-					// If the element type is "password", attempt to change it to "text" so we can display the placeholder value in plain text
-					if (element.type === "password") {
-
-						// The `type` property is read-only in IE < 9, so in those cases we just move on. The placeholder will be displayed masked
-						try {
-							element.type = "text";
-							element.setAttribute("data-placeholdertype", "password");
-						} catch (e) {}
-					}
-
-					//The placeholder attribute has a value. Keep track of the current placeholder value in an HTML5 data-* attribute
-					element.setAttribute("data-currentplaceholder", placeholder);
-
-					//If the value of the element is the empty string set the value to that of the placeholder attribute and apply the placeholder styles
-					if (element.value === "" || element.value === placeholder) {
-						element.className = element.className + " placeholderspolyfill";
-						element.value = placeholder;
-					}
-
-					//If the element has a containing form bind to the submit event so we can prevent placeholder values being submitted as actual values
-					if (element.form) {
-
-						//Get a reference to the containing form element (if present)
-						form = element.form;
-
-						//The placeholdersubmit data-* attribute is set if this form has already been dealt with
-						if (!form.getAttribute("data-placeholdersubmit")) {
-
-							//The placeholdersubmit attribute wasn't set, so attach a submit event handler
-							addEventListener(form, "submit", submitHandler);
-
-							//Set the placeholdersubmit attribute so we don't repeatedly bind event handlers to this form element
-							form.setAttribute("data-placeholdersubmit", "true");
-						}
-					}
-
-					//Attach event listeners to this element
-					addEventListeners(element);
-				}
-			}
-		}
-	}
+                //If the current placeholder data-* attribute has no value the element wasn't present in the DOM when event handlers were bound, so bind them now
+                if (!oldPlaceholder) {
+                    addEventListeners(element);
+                }
+            }
+        }
+    }
 
 	/* The init function checks whether or not we need to polyfill the placeholder functionality. If we do, it sets up various things
 	 * needed throughout the script and then calls createPlaceholders to setup initial placeholders */
@@ -426,7 +405,7 @@ var Placeholders = (function () {
 			 * We use an interval over events such as DOMAttrModified (which are used in some other implementations of the placeholder attribute)
 			 * since the DOM level 2 mutation events are deprecated in the level 3 spec. */
 			if (settings.live) {
-				interval = setInterval(updatePlaceholders, 100);
+				interval = setInterval(createPlaceholders, 100);
 			}
 
 			//Placeholder attribute was successfully polyfilled :)
@@ -440,6 +419,7 @@ var Placeholders = (function () {
 	//Expose public methods
 	return {
 		init: init,
-		refresh: updatePlaceholders
+		refresh: updatePlaceholders,
+        attach: createPlaceholder
 	};
 }());
