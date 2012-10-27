@@ -15,7 +15,7 @@ Placeholders.js is licensed under the [MIT License](http://en.wikipedia.org/wiki
  - Works properly for `input` elements of the **`password` type** in all browsers except Internet Explorer 8 and below, in which the placeholder appears as masked text
  - Wide range of browsers supported, **including IE6**
  - **No dependencies** (so no need to include jQuery, unlike most placeholder polyfill scripts)
- - All of the above in just 4kB when minified, and about **1kB when gzipped**!
+ - All of the above in just 5kB when minified, and about **1kB when gzipped**!
 
 ##How do I use it?
 
@@ -83,4 +83,4 @@ Do you use some obscure browser that doesn't have native `placeholder` attribute
 
 You can download the repository at various states from the [tags page](https://github.com/jamesallardice/Placeholders.js/tags), or with the following links:
 
-[Current version (1.1)](https://github.com/jamesallardice/Placeholders.js/zipball/v1.1) | [1.0](https://github.com/jamesallardice/Placeholders.js/zipball/v1.0)
+[Current version (1.2)](https://github.com/jamesallardice/Placeholders.js/zipball/v1.2) | [1.1](https://github.com/jamesallardice/Placeholders.js/zipball/v1.1) | [1.0](https://github.com/jamesallardice/Placeholders.js/zipball/v1.0)

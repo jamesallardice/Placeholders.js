@@ -228,6 +228,7 @@ var Placeholders = (function () {
 			numInputs = inputs.length,
 			num = numInputs + textareas.length,
 			i,
+            form,
 			element,
 			oldPlaceholder,
 			newPlaceholder;
@@ -263,6 +264,22 @@ var Placeholders = (function () {
 
 						//If the current placeholder data-* attribute has no value the element wasn't present in the DOM when event handlers were bound, so bind them now
 						if (!oldPlaceholder) {
+                            //If the element has a containing form bind to the submit event so we can prevent placeholder values being submitted as actual values
+                            if (element.form) {
+
+                                //Get a reference to the containing form element (if present)
+                                form = element.form;
+
+                                //The placeholdersubmit data-* attribute is set if this form has already been dealt with
+                                if (!form.getAttribute("data-placeholdersubmit")) {
+
+                                    //The placeholdersubmit attribute wasn't set, so attach a submit event handler
+                                    addEventListener(form, "submit", submitHandler);
+
+                                    //Set the placeholdersubmit attribute so we don't repeatedly bind event handlers to this form element
+                                    form.setAttribute("data-placeholdersubmit", "true");
+                                }
+                            }
 							addEventListeners(element);
 						}
 
