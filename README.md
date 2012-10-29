@@ -83,4 +83,4 @@ Do you use some obscure browser that doesn't have native `placeholder` attribute
 
 You can download the repository at various states from the [tags page](https://github.com/jamesallardice/Placeholders.js/tags), or with the following links:
 
-[Current version (1.2)](https://github.com/jamesallardice/Placeholders.js/zipball/v1.2) | [1.1](https://github.com/jamesallardice/Placeholders.js/zipball/v1.1) | [1.0](https://github.com/jamesallardice/Placeholders.js/zipball/v1.0)
+[Current version (1.2.1)](https://github.com/jamesallardice/Placeholders.js/zipball/v1.2.1) | [1.1](https://github.com/jamesallardice/Placeholders.js/zipball/v1.1) | [1.0](https://github.com/jamesallardice/Placeholders.js/zipball/v1.0)
