@@ -65,7 +65,8 @@ var Placeholders = (function () {
 			"tel",
 			"email",
 			"password",
-			"number"
+			"number",
+			"textarea"
 		],
 
 	//Default options, can be overridden by passing object to `init`
