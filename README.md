@@ -38,6 +38,12 @@ The `init` method is all that you need to call to get the polyfill working. It a
 
  - `hideOnFocus` - If `true`, this option will cause the placeholder to disappear when the element receives focus. If `false`, or not specified, the placeholder will disappear when some input is entered into the element. **Default: `false`**.
 
+ - `className` - A custom class name that will be added to each element to which the polyfill applies. **Default: `placeholderspolyfill`**.
+
+ - `textColor` - The default color of the placeholder text. **Default: `#999` (gray)**.
+
+ - `styleImportant` - Boolean flag that specifies whether or not the `!important` directive should be added to the polyfill styles. **Default: `true`**.
+
 Here's an example call to the `init` method:
 
     Placeholders.init({
@@ -78,6 +84,13 @@ Placeholders.js aims to support the widest range of browsers possible. The idea 
  - K-Meleon 0.7+ (with Placeholders.js)
 
 Do you use some obscure browser that doesn't have native `placeholder` attribute support? If so, please let me know so I can make sure Placeholders.js works with it.
+
+##Contributors
+
+Many thanks to [@ioptics](https://github.com/ioptics) for asking me to write this in the first place. Also thanks to:
+
+ - [@markcarlson](https://github.com/markcarlson) for a major bug fix
+ - [@ralgh](https://github.com/ralgh) for adding options to customize the polyfill styles
 
 ##Downloads
 
