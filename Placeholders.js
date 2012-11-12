@@ -71,8 +71,11 @@ var Placeholders = (function () {
 
 	//Default options, can be overridden by passing object to `init`
 		settings = {
-			live: false,
-			hideOnFocus: false
+			live:           false,
+			hideOnFocus:    false,
+			className:      'placeholderspolyfill', // placeholder class name to apply to form fields
+			textColor:      '#999',                 // default placeholder text color
+			styleImportant: true                    // add !important flag to placeholder style
 		},
 
 	//Keycodes that are not allowed when the placeholder is visible and `hideOnFocus` is `false`
@@ -82,7 +85,10 @@ var Placeholders = (function () {
 		interval,
 
 	//Stores the input value on keydown (used when `hideOnFocus` option is `false`)
-		valueKeyDown;
+		valueKeyDown,
+
+	// polyfill class name regexp
+		classNameRegExp = new RegExp('\\b' + settings.className + '\\b');
 
 	// The cursorToStart function attempts to jump the cursor to before the first character of input
 	function cursorToStart(elem) {
@@ -111,7 +117,7 @@ var Placeholders = (function () {
 			} else {
 				/* Remove the placeholder class name. Use a regular expression to ensure the string being searched for is a complete word, and not part of a longer
 				 * string, on the off-chance a class name including that string also exists on the element */
-				this.className = this.className.replace(/\bplaceholderspolyfill\b/, "");
+				this.className = this.className.replace(classNameRegExp, "");
 				this.value = "";
 
 				// Check if we need to switch the input type (this is the case if it's a password input)
@@ -131,7 +137,7 @@ var Placeholders = (function () {
 
 		//If the input value is the empty string, apply the placeholder and its associated styles
 		if (this.value === "") {
-			this.className = this.className + " placeholderspolyfill";
+			this.className = this.className + " " + settings.className;
 			this.value = this.getAttribute("placeholder");
 
 			// Check if we need to switch the input type (this is the case if it's a password input)
@@ -182,7 +188,7 @@ var Placeholders = (function () {
 		if (this.value !== valueKeyDown) {
 
 			// Remove the placeholder
-			this.className = this.className.replace(/\bplaceholderspolyfill\b/, "");
+			this.className = this.className.replace(classNameRegExp, "");
 			this.value = this.value.replace(this.getAttribute("placeholder"), "");
 
 			// Check if we need to switch the input type (this is the case if it's a password input)
@@ -260,7 +266,7 @@ var Placeholders = (function () {
 
 							//The placeholder should be visible so change the element value to that of the placeholder attribute and set placeholder styles
 							element.value = newPlaceholder;
-							element.className = element.className + " placeholderspolyfill";
+							element.className = element.className + " " + settings.className;
 						}
 
 						//If the current placeholder data-* attribute has no value the element wasn't present in the DOM when event handlers were bound, so bind them now
@@ -337,7 +343,7 @@ var Placeholders = (function () {
 
 					//If the value of the element is the empty string set the value to that of the placeholder attribute and apply the placeholder styles
 					if (element.value === "" || element.value === placeholder) {
-						element.className = element.className + " placeholderspolyfill";
+						element.className = element.className + " " + settings.className;
 						element.value = placeholder;
 					}
 
@@ -393,7 +399,8 @@ var Placeholders = (function () {
 			styleElem.type = "text/css";
 
 			//Create style rules as text node
-			styleRules = document.createTextNode(".placeholderspolyfill { color:#999 !important; }");
+			var importantValue = (settings.styleImportant) ? "!important" : "";
+			styleRules = document.createTextNode("." + settings.className + " { color:" + settings.textColor  + importantValue + "; }");
 
 			//Append style rules to newly created stylesheet
 			if (styleElem.styleSheet) {
