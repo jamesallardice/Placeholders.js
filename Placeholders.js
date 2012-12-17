@@ -187,14 +187,16 @@ var Placeholders = (function () {
 
 		if (this.value !== valueKeyDown) {
 
-			// Remove the placeholder
-			this.className = this.className.replace(classNameRegExp, "");
-			this.value = this.value.replace(this.getAttribute("placeholder"), "");
+			// Remove the placeholder if we haven't already
+			if (classNameRegExp.test(this.className)) {
+				this.className = this.className.replace(classNameRegExp, "");
+				this.value = this.value.replace(this.getAttribute("placeholder"), "");
 
-			// Check if we need to switch the input type (this is the case if it's a password input)
-			type = this.getAttribute("data-placeholdertype");
-			if (type) {
-				this.type = type;
+				// Check if we need to switch the input type (this is the case if it's a password input)
+				type = this.getAttribute("data-placeholdertype");
+				if (type) {
+					this.type = type;
+				}
 			}
 		}
 		if (this.value === "") {
