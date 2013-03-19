@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Placeholders.js Browser Test</title>
+        <link rel="stylesheet" href="tests.css">
+    </head>
+    <body>
+
+        <!-- Polyfill should handle input elements with no type attribute (it should default to "text" in all browsers) -->
+        <input placeholder="Test no type">
+
+        <!-- Polyfill should handle input elements with various type attribute values -->
+        <input type="text" placeholder="Test text type">
+        <input type="search" placeholder="Test search type">
+        <input type="url" placeholder="Test url type">
+        <input type="tel" placeholder="Test tel type">
+        <input type="email" placeholder="Test email type">
+        <input type="number" placeholder="Test number type">
+
+        <!-- Polyfill should handle inputs of password type but should show a masked placeholder in Internet Explorer 8 and below -->
+        <input type="password" placeholder="Test password type">
+
+        <!-- Polyfill should handle textarea elements -->
+        <textarea placeholder="Test textarea"></textarea>
+
+        <!-- Polyfill should handle elements with a placeholder and an initial value -->
+        <input type="text" placeholder="Test initial value" value="Initial value">
+
+        <!-- Polyfill should not allow placeholder text to be submitted as part of a form -->
+        <form method="get" action="">
+            <input type="text" placeholder="Test form submission">
+        </form>
+
+        <script src="../lib/Placeholders.js"></script>
+    </body>
+</html>

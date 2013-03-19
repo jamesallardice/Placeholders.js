@@ -1,0 +1,9 @@
+/* Basic styles to make it easier to see the placeholder effect */
+input, textarea {
+    display: block;
+    width: 400px;
+    height: 30px;
+    margin: 8px;
+    padding: 4px;
+    font-size: 1.3em;
+}
