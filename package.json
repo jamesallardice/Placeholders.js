@@ -1,0 +1,12 @@
+{
+    "name": "Placeholders.js",
+    "version": "2.0.0",
+    "author": "James Allardice <admin@jamesallardice.com>",
+    "description": "A JavaScript polyfill for the HTML5 placeholder attribute",
+    "private": true,
+    "devDependencies": {
+        "grunt": "0.4.x",
+        "grunt-contrib-jshint": "0.3.x",
+        "grunt-contrib-uglify": "0.2.x"
+    }
+}
