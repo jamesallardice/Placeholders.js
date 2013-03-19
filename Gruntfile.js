@@ -1,13 +1,41 @@
 module.exports = function (grunt) {
+
+    "use strict";
+
     grunt.initConfig({
         jshint: {
-            files: [
-                "lib/Placeholders.js",
-                "Gruntfile.js",
-                "package.json" // JSHint is capable of standalone JSON validation
-            ],
             options: {
-                browser: true
+                browser: true,
+                curly: true,
+                eqeqeq: true,
+                forin: true,
+                immed: true,
+                latedef: true,
+                newcap: true,
+                noempty: true,
+                nonew: true,
+                undef: true,
+                unused: true,
+                strict: true,
+                trailing: true,
+                white: true,
+                indent: 4,
+                quotmark: "double"
+            },
+            uses_defaults: [
+                "lib/Placeholders.js"
+            ],
+            with_overrides: {
+                options: {
+                    browser: false,
+                    node: true
+                },
+                files: {
+                    src: [
+                        "Gruntfile.js",
+                        "package.json"
+                    ]
+                }
             }
         },
         uglify: {
