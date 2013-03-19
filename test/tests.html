@@ -27,11 +27,20 @@
         <!-- Polyfill should handle elements with a placeholder and an initial value -->
         <input type="text" placeholder="Test initial value" value="Initial value">
 
+        <!-- Polyfill should handle placeholder values that change via script (this changes after 1s) -->
+        <input type="text" placeholder="Test changing value" id="handle1">
+
+        <!-- Polyfill should handle placeholder values are added via script (this gets one after 1s) -->
+        <input type="text" id="handle2">
+
         <!-- Polyfill should not allow placeholder text to be submitted as part of a form -->
-        <form method="get" action="">
+        <form method="get" action="" id="form1">
             <input type="text" placeholder="Test form submission">
+            <input type="text" value="I should be submitted">
+            <button type="submit">Submit form</button>
         </form>
 
         <script src="../lib/Placeholders.js"></script>
+        <script src="tests.js"></script>
     </body>
 </html>
