@@ -1,4 +1,5 @@
-var form = document.getElementById("form1");
+var form = document.getElementById("form1"),
+    newInput = document.createElement("input");
 
 setTimeout(function () {
 
@@ -7,6 +8,11 @@ setTimeout(function () {
 
     // Test created placeholder attribute value
     document.getElementById("handle2").setAttribute("placeholder", "This value has been added");
+
+    // Test new input element added to the DOM after page load
+    newInput.setAttribute("type", "text");
+    newInput.setAttribute("placeholder", "Test created element");
+    document.body.appendChild(newInput);
 
 }, 1000);
 
