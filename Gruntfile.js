@@ -5,6 +5,9 @@ module.exports = function (grunt) {
     grunt.initConfig({
         jshint: {
             options: {
+                globals: {
+                    Placeholders: true
+                },
                 browser: true,
                 curly: true,
                 eqeqeq: true,
@@ -23,7 +26,7 @@ module.exports = function (grunt) {
                 quotmark: "double"
             },
             uses_defaults: [
-                "lib/Placeholders.js"
+                "lib/main.js"
             ],
             with_overrides: {
                 options: {
@@ -38,19 +41,30 @@ module.exports = function (grunt) {
                 }
             }
         },
+        concat: {
+            dist: {
+                src: [
+                    "lib/utils.js",
+                    "lib/main.js"
+                ],
+                dest: "build/Placeholders.js"
+            }
+        },
         uglify: {
             build: {
-                src: "lib/Placeholders.js",
+                src: "build/Placeholders.js",
                 dest: "build/Placeholders.min.js"
             }
         }
     });
 
+    grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-uglify");
 
     grunt.registerTask("default", [
         "jshint",
+        "concat",
         "uglify"
     ]);
 };

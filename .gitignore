@@ -3,3 +3,6 @@ node_modules
 
 # Ignore build output
 build
+
+# Ignore annoying OS X files
+.DS_Store

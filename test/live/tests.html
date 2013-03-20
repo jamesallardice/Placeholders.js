@@ -1,0 +1,24 @@
+<!doctype html>
+<!-- Placeholders on this page should not live-update -->
+<html data-placeholder-live="false">
+    <head>
+        <meta charset="utf-8">
+        <title>Placeholders.js Browser Test</title>
+        <link rel="stylesheet" href="../tests.css">
+    </head>
+    <body>
+
+        <!-- Polyfill should NOT handle placeholder values that change via script (this changes after 1s) -->
+        This input should have a working placeholder value of "Test changing value"
+        <input type="text" placeholder="Test changing value" id="handle1">
+
+        <!-- Polyfill should NOT handle placeholder values are added via script (this gets one after 1s) -->
+        This input should not have any placeholder
+        <input type="text" id="handle2">
+
+        The input created here should not have any placeholder
+
+        <script src="../../build/Placeholders.js"></script>
+        <script src="tests.js"></script>
+    </body>
+</html>
