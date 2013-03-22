@@ -1,6 +1,7 @@
 /* Custom additions */
 .placeholder-example{padding-top: 20px;}
 .list li{padding:5px;}
+.small{font-size:11px;display:block;text-align:right;}
 
 /*!
  * Bootstrap v2.3.1
