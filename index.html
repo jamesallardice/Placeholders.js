@@ -177,7 +177,7 @@
         <script>
             $("iframe").each(function () {
                 var gist = $(this).parent().prev().find(".gist");
-                this.contentDocument.write(gist.find(".line-pre")[0].textContent);
+                this.contentDocument.write(gist.find(".line-pre").text());
                 $(this).height(gist.height());
             });
             $("a[data-toggle='tab']").on("shown", function () {
