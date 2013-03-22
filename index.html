@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Placeholders.js - An HTML5 placeholder attribute polyfill</title>
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <style>
+            iframe {
+                width: 99%;
+                border: 1px solid #ccc;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="hero-unit">
+                <h1>Placeholders.js</h1>
+                <p>
+                    Placeholders.js is a JavaScript polyfill for the HTML5 <code>placeholder</code> attribute. It's lightweight, has zero dependencies and works in pretty much any browser you can imagine.
+                </p>
+                <p>
+                    <a href="assets/js/Placeholders.min.js" class="btn btn-primary btn-large">Download now</a>
+                </p>
+            </div>
+            <h2>Examples</h2>
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#default" data-toggle="tab">Default</a>
+                </li>
+                <li>
+                    <a href="#input" data-toggle="tab">Hide-on-input</a>
+                </li>
+                <li>
+                    <a href="#once" data-toggle="tab">Run-once</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="default">
+                    <div class="row">
+                        <div class="span6">
+                            <script src="https://gist.github.com/jamesallardice/5221482.js"></script>
+                        </div>
+                        <div class="span6">
+                            <iframe></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="input">
+                    <div class="row">
+                        <div class="span6">
+                            <script src="https://gist.github.com/jamesallardice/5221766.js"></script>
+                        </div>
+                        <div class="span6">
+                            <iframe></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="once">
+                    <div class="row">
+                        <div class="span6">
+                            <script src="https://gist.github.com/jamesallardice/5221826.js"></script>
+                        </div>
+                        <div class="span6">
+                            <iframe></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h2>Setup</h2>
+            <p>
+                Placeholders.js is incredibly easy to use. Just <a href="assets/js/Placeholders.min.js">download the script</a>, include it at the bottom of any web page and let it do the rest. It's just one extra line in your markup. Browsers that support the <code>placeholder</code> attribute natively will be unaffected and work as usual.
+            </p>
+            <p>
+                If you want a bit more control over how the polyfill behaves, you can configure it with HTML5 <code>data-*</code> attributes on the root <code>&lt;html&gt;</code> element.
+            </p>
+            <h3>Options</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Option</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <code>data-placeholders-focus</code>
+                        </td>
+                        <td>
+                            Set this to <code>false</code> if you want your placeholders to hide when a user enters something in the field, instead of just giving focus to the field. This is how later versions of Chrome and Safari behave natively.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>data-placeholders-live</code>
+                        </td>
+                        <td>
+                            Set this to <code>false</code> if you don't want your placeholders to update if you change them via JavaScript, or add new elements to the page after it's loaded. If you know you won't be changing the page in this way, you should always set this to <code>false</code>.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                Is there an option that you think would be useful? Just <a href="https://github.com/jamesallardice/Placeholders.js/issues">open an issue on GitHub</a> and we'll look into adding it. Alternatively, fork the project and add it yourself!
+            </p>
+            <hr>
+            <h2>API</h2>
+            <p>
+                Placeholders.js exposes a very simple API that you can use to handle your placeholders via JavaScript. The main use of these methods is so you can show the placeholders again in situations the polyfill can't handle on its own, such as cancelled form submissions.
+            </p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <code>Placeholders.disable( [element] )</code>
+                        </td>
+                        <td>
+                            Call this method to hide the placeholder on an element, or on all descendants of an element. If you don't pass in an element, all placeholders will be affected.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>Placeholders.enable( [element] )</code>
+                        </td>
+                        <td>
+                            Call this method to show the placeholder on an element, or on all descendants of an element. If you don't pass in an element, all placeholders will be affected.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <h2>Contributing</h2>
+            <p>
+                Placeholders.js is open-source and we welcome all contributions, suggestions and ideas. If you decide to help out by submitting a pull request, just follow these simple instructions to get your development environment up and running.
+            </p>
+            <ol class="list">
+                <li>Make sure you have <a href="http://nodejs.org/">Node.js</a> and its package manager, <a href="https://npmjs.org/">npm</a>, installed</li>
+                <li>Install Grunt (minimum version 0.4) globally: <code>npm install -g grunt-cli</code></li>
+                <li>Fork Placeholders.js to your own GitHub account</li>
+                <li>Clone your fork of the repository: <code>git clone git@github.com:username/Placeholders.js</code></li>
+                <li>Navigate to the clone directory and install development dependencies: <code>npm install</code></li>
+                <li>Be sure to run Grunt before committing any changes: <code>grunt</code></li>
+            </ol>
+            <hr>
+            <h2>Thanks</h2>
+            <p>
+                Placeholders.js was originally developed, and is maintained by, <a href="http://jamesallardice.com">James Allardice</a>. Huge thanks to the following people for their help in this project.
+            </p>
+            <ul class="list">
+                <li><a href="https://github.com/ioptics">@ioptics</a> for asking me to write this in the first place</li>
+                <li><a href="https://github.com/markcarlson">@markcarlson</a> for a major version 1 bug fix</li>
+                <li><a href="https://github.com/ralgh">@ralgh</a> for adding customisation options to version 1</li>
+                <li><a href="https://github.com/jpoehls">@jpoehls</a> for another major version 1 bug fix</li>
+            </ul>
+            <hr>
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            $("iframe").each(function () {
+                var gist = $(this).parent().prev().find(".gist");
+                this.contentDocument.write(gist.find(".line-pre")[0].textContent);
+                $(this).height(gist.height());
+            });
+            $("a[data-toggle='tab']").on("shown", function () {
+                $("iframe").height(function () {
+                    return $(this).parent().prev().find(".gist").height();
+                });
+            });
+        </script>
+    </body>
+</html>
