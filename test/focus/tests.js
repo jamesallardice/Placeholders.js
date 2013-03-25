@@ -14,6 +14,13 @@ setTimeout(function () {
     newInput.setAttribute("placeholder", "Test created element");
     document.body.appendChild(newInput);
 
+    // Test input type changing after page load
+    try {
+        document.getElementById("handle3").type = "password";
+    } catch (e) {
+        // This will fail in IE < 9
+    }
+
 }, 1000);
 
 // Bind a submit event handler to the test form

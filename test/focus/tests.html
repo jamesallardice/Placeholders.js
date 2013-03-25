@@ -34,6 +34,9 @@
         <!-- Polyfill should handle placeholder values are added via script (this gets one after 1s) -->
         <input type="text" id="handle2">
 
+        <!-- Polyfill should handle input types that change after page load e.g. text->password -->
+        <input type="text" id="handle3" placeholder="Change to password">
+
         <!-- Polyfill should not allow placeholder text to be submitted as part of a form -->
         <form method="get" action="" id="form1">
             <input type="text" placeholder="Test form submission">
