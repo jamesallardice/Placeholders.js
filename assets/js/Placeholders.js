@@ -54,12 +54,24 @@
         }
     }
 
+    // Attempt to change the type property of an input element
+    function changeType(elem, type) {
+        try {
+            elem.type = type;
+            return true;
+        } catch (e) {
+            // You can't change input type in IE8 and below
+            return false;
+        }
+    }
+
     // Expose public methods
     global.Placeholders = {
         Utils: {
             addEventListener: addEventListener,
             inArray: inArray,
-            moveCaret: moveCaret
+            moveCaret: moveCaret,
+            changeType: changeType
         }
     };
 
@@ -156,6 +168,10 @@
             type = elem.getAttribute(ATTR_INPUT_TYPE);
             if (type) {
                 elem.type = "text";
+            } else if (elem.type === "password") {
+                if (Utils.changeType(elem, "text")) {
+                    elem.setAttribute(ATTR_INPUT_TYPE, "password");
+                }
             }
             return true;
         }
@@ -357,16 +373,11 @@
                     }
 
                     // If the placeholder value has changed or not been initialised yet we need to update the display
-                    if (placeholder !== elem.getAttribute(ATTR_CURRENT_VAL)) {
+                    if (placeholder !== elem.getAttribute(ATTR_CURRENT_VAL) || (elem.type === "password" && !elem.getAttribute(ATTR_INPUT_TYPE))) {
 
                         // Attempt to change the type of password inputs (fails in IE < 9)
-                        if (elem.type === "password") {
-                            try {
-                                elem.type = "text";
-                                elem.setAttribute(ATTR_INPUT_TYPE, "password");
-                            } catch (e) {
-                                // This is empty on purpose. In IE < 9 we just move on and display the placeholder as masked text.
-                            }
+                        if (elem.type === "password" && !elem.getAttribute(ATTR_INPUT_TYPE) && Utils.changeType(elem, "text")) {
+                            elem.setAttribute(ATTR_INPUT_TYPE, "password");
                         }
 
                         // If the placeholder value has changed and the placeholder is currently on display we need to change it
