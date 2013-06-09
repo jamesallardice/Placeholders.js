@@ -3,6 +3,7 @@ module.exports = function (grunt) {
     "use strict";
 
     grunt.initConfig({
+        pkg: grunt.file.readJSON("package.json"),
         jshint: {
             options: {
                 globals: {
@@ -51,6 +52,9 @@ module.exports = function (grunt) {
             }
         },
         uglify: {
+            options: {
+                banner: "/* Placeholders.js v<%= pkg.version %> */\n"
+            },
             build: {
                 src: "build/Placeholders.js",
                 dest: "build/Placeholders.min.js"
