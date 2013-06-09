@@ -25,6 +25,9 @@
         <!-- Polyfill should handle textarea elements -->
         <textarea placeholder="Test textarea"></textarea>
 
+        <!-- Polyfill should not remove the wrong class name (see GH-25) -->
+        <input type="text" placeholder="My text colour should change on input" class="wrong-placeholdersjs">
+
         <!-- Polyfill should handle elements with a placeholder and an initial value -->
         <input type="text" placeholder="Test initial value" value="Initial value">
 
