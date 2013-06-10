@@ -116,7 +116,7 @@
         // Styling variables
         placeholderStyleColor = "#ccc",
         placeholderClassName = "placeholdersjs",
-        classNameRegExp = new RegExp("\\b" + placeholderClassName + "\\b"),
+        classNameRegExp = new RegExp("(?:^|\\s)" + placeholderClassName + "(?!\\S)"),
 
         // These will hold references to all elements that can be affected. NodeList objects are live, so we only need to get those references once
         inputs, textareas,
@@ -137,6 +137,9 @@
         Placeholders = global.Placeholders,
         Utils = Placeholders.Utils,
         hideOnInput, liveUpdates, keydownVal, styleElem, styleRules, placeholder, timer, form, elem, len, i;
+
+    // No-op (used in place of public methods when native support is detected)
+    function noop() {}
 
     // Hide the placeholder value on a single element. Returns true if the placeholder was hidden and false if it was not (because it wasn't visible in the first place)
     function hidePlaceholder(elem) {
@@ -242,7 +245,12 @@
 
             //Prevent the use of the arrow keys (try to keep the cursor before the placeholder)
             if (elem.getAttribute(ATTR_ACTIVE) === "true") {
-                return !(keydownVal === elem.getAttribute(ATTR_CURRENT_VAL) && Utils.inArray(badKeys, e.keyCode));
+                if (keydownVal === elem.getAttribute(ATTR_CURRENT_VAL) && Utils.inArray(badKeys, e.keyCode)) {
+                    if (e.preventDefault) {
+                        e.preventDefault();
+                    }
+                    return false;
+                }
             }
         };
     }
@@ -321,7 +329,9 @@
         showPlaceholder(elem);
     }
 
-    if (test.placeholder === void 0) {
+    Placeholders.nativeSupport = test.placeholder !== void 0;
+
+    if (!Placeholders.nativeSupport) {
 
         // Get references to all the input and textarea elements currently in the DOM (live NodeList objects to we only need to do this once)
         inputs = document.getElementsByTagName("input");
@@ -352,10 +362,17 @@
         for (i = 0, len = inputs.length + textareas.length; i < len; i++) {
             elem = i < inputs.length ? inputs[i] : textareas[i - inputs.length];
 
-            // Only apply the polyfill if this element is of a type that supports placeholders, and has a placeholder attribute with a non-empty value
-            placeholder = elem.getAttribute("placeholder");
-            if (placeholder && Utils.inArray(validTypes, elem.type)) {
-                newElement(elem);
+            // Get the value of the placeholder attribute, if any. IE10 emulating IE7 fails with getAttribute, hence the use of the attributes node
+            placeholder = elem.attributes.placeholder;
+            if (placeholder) {
+
+                // IE returns an empty object instead of undefined if the attribute is not present
+                placeholder = placeholder.nodeValue;
+
+                // Only apply the polyfill if this element is of a type that supports placeholders, and has a placeholder attribute with a non-empty value
+                if (placeholder && Utils.inArray(validTypes, elem.type)) {
+                    newElement(elem);
+                }
             }
         }
 
@@ -365,29 +382,32 @@
                 elem = i < inputs.length ? inputs[i] : textareas[i - inputs.length];
 
                 // Only apply the polyfill if this element is of a type that supports placeholders, and has a placeholder attribute with a non-empty value
-                placeholder = elem.getAttribute("placeholder");
-                if (placeholder && Utils.inArray(validTypes, elem.type)) {
+                placeholder = elem.attributes.placeholder;
+                if (placeholder) {
+                    placeholder = placeholder.nodeValue;
+                    if (placeholder && Utils.inArray(validTypes, elem.type)) {
 
-                    // If the element hasn't had event handlers bound to it then add them
-                    if (!elem.getAttribute(ATTR_EVENTS_BOUND)) {
-                        newElement(elem);
-                    }
-
-                    // If the placeholder value has changed or not been initialised yet we need to update the display
-                    if (placeholder !== elem.getAttribute(ATTR_CURRENT_VAL) || (elem.type === "password" && !elem.getAttribute(ATTR_INPUT_TYPE))) {
-
-                        // Attempt to change the type of password inputs (fails in IE < 9)
-                        if (elem.type === "password" && !elem.getAttribute(ATTR_INPUT_TYPE) && Utils.changeType(elem, "text")) {
-                            elem.setAttribute(ATTR_INPUT_TYPE, "password");
+                        // If the element hasn't had event handlers bound to it then add them
+                        if (!elem.getAttribute(ATTR_EVENTS_BOUND)) {
+                            newElement(elem);
                         }
 
-                        // If the placeholder value has changed and the placeholder is currently on display we need to change it
-                        if (elem.value === elem.getAttribute(ATTR_CURRENT_VAL)) {
-                            elem.value = placeholder;
-                        }
+                        // If the placeholder value has changed or not been initialised yet we need to update the display
+                        if (placeholder !== elem.getAttribute(ATTR_CURRENT_VAL) || (elem.type === "password" && !elem.getAttribute(ATTR_INPUT_TYPE))) {
 
-                        // Keep a reference to the current placeholder value in case it changes via another script
-                        elem.setAttribute(ATTR_CURRENT_VAL, placeholder);
+                            // Attempt to change the type of password inputs (fails in IE < 9)
+                            if (elem.type === "password" && !elem.getAttribute(ATTR_INPUT_TYPE) && Utils.changeType(elem, "text")) {
+                                elem.setAttribute(ATTR_INPUT_TYPE, "password");
+                            }
+
+                            // If the placeholder value has changed and the placeholder is currently on display we need to change it
+                            if (elem.value === elem.getAttribute(ATTR_CURRENT_VAL)) {
+                                elem.value = placeholder;
+                            }
+
+                            // Keep a reference to the current placeholder value in case it changes via another script
+                            elem.setAttribute(ATTR_CURRENT_VAL, placeholder);
+                        }
                     }
                 }
             }
@@ -400,7 +420,7 @@
     }
 
     // Expose public methods
-    Placeholders.disable = disablePlaceholders;
-    Placeholders.enable = enablePlaceholders;
+    Placeholders.disable = Placeholders.nativeSupport ? noop : disablePlaceholders;
+    Placeholders.enable = Placeholders.nativeSupport ? noop : enablePlaceholders;
 
 }(this));
