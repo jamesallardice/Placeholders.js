@@ -25,6 +25,9 @@
         <!-- Polyfill should handle textarea elements -->
         <textarea placeholder="Test textarea"></textarea>
 
+        <!-- Polyfill should ignore the maxlength attribute if present -->
+        <input type="text" placeholder="Test maxlength" maxlength="4">
+
         <!-- Polyfill should not remove the wrong class name (see GH-25) -->
         <input type="text" placeholder="My text colour should change on input" class="wrong-placeholdersjs">
 
