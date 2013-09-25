@@ -18,6 +18,7 @@ module.exports = function (grunt) {
                 newcap: true,
                 noempty: true,
                 nonew: true,
+                onevar: true,
                 undef: true,
                 unused: true,
                 strict: true,
