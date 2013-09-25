@@ -129,6 +129,7 @@
         ATTR_EVENTS_BOUND = "data-placeholder-bound",
         ATTR_OPTION_FOCUS = "data-placeholder-focus",
         ATTR_OPTION_LIVE = "data-placeholder-live",
+        ATTR_MAXLENGTH = "data-placeholder-maxlength",
 
         // Various other variables used throughout the rest of the script
         test = document.createElement("input"),
@@ -142,12 +143,23 @@
     function noop() {}
 
     // Hide the placeholder value on a single element. Returns true if the placeholder was hidden and false if it was not (because it wasn't visible in the first place)
-    function hidePlaceholder(elem) {
-        var type;
-        if (elem.value === elem.getAttribute(ATTR_CURRENT_VAL) && elem.getAttribute(ATTR_ACTIVE) === "true") {
+    function hidePlaceholder(elem, keydownValue) {
+        var type,
+            maxLength,
+            valueChanged = (!!keydownValue && elem.value !== keydownValue),
+            isPlaceholderValue = (elem.value === elem.getAttribute(ATTR_CURRENT_VAL));
+
+        if ((valueChanged || isPlaceholderValue) && elem.getAttribute(ATTR_ACTIVE) === "true") {
             elem.setAttribute(ATTR_ACTIVE, "false");
-            elem.value = "";
+            elem.value = elem.value.replace(elem.getAttribute(ATTR_CURRENT_VAL), "");
             elem.className = elem.className.replace(classNameRegExp, "");
+
+            // Restore the maxlength value
+            maxLength = elem.getAttribute(ATTR_MAXLENGTH);
+            if (maxLength) {
+                elem.setAttribute("maxLength", maxLength);
+                elem.removeAttribute(ATTR_MAXLENGTH);
+            }
 
             // If the polyfill has changed the type of the element we need to change it back
             type = elem.getAttribute(ATTR_INPUT_TYPE);
@@ -162,11 +174,19 @@
     // Show the placeholder value on a single element. Returns true if the placeholder was shown and false if it was not (because it was already visible)
     function showPlaceholder(elem) {
         var type,
+            maxLength,
             val = elem.getAttribute(ATTR_CURRENT_VAL);
         if (elem.value === "" && val) {
             elem.setAttribute(ATTR_ACTIVE, "true");
             elem.value = val;
             elem.className += " " + placeholderClassName;
+
+            // Store and remove the maxlength value
+            maxLength = elem.getAttribute(ATTR_MAXLENGTH);
+            if (!maxLength) {
+                elem.setAttribute(ATTR_MAXLENGTH, elem.maxLength);
+                elem.removeAttribute("maxLength");
+            }
 
             // If the type of element needs to change, change it (e.g. password inputs)
             type = elem.getAttribute(ATTR_INPUT_TYPE);
@@ -256,21 +276,7 @@
     }
     function makeKeyupHandler(elem) {
         return function () {
-            var type;
-
-            if (elem.getAttribute(ATTR_ACTIVE) === "true" && elem.value !== keydownVal) {
-
-                // Remove the placeholder
-                elem.className = elem.className.replace(classNameRegExp, "");
-                elem.value = elem.value.replace(elem.getAttribute(ATTR_CURRENT_VAL), "");
-                elem.setAttribute(ATTR_ACTIVE, false);
-
-                // If the type of element needs to change, change it (e.g. password inputs)
-                type = elem.getAttribute(ATTR_INPUT_TYPE);
-                if (type) {
-                    elem.type = type;
-                }
-            }
+            hidePlaceholder(elem, keydownVal);
 
             // If the element is now empty we need to show the placeholder
             if (elem.value === "") {
