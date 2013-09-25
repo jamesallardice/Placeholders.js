@@ -1,6 +1,6 @@
 {
     "name": "Placeholders.js",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "author": "James Allardice <admin@jamesallardice.com>",
     "description": "A JavaScript polyfill for the HTML5 placeholder attribute",
     "private": true,
