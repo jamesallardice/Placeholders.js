@@ -44,12 +44,20 @@ module.exports = function (grunt) {
             }
         },
         concat: {
-            dist: {
+            basic: {
                 src: [
                     "lib/utils.js",
                     "lib/main.js"
                 ],
-                dest: "build/Placeholders.js"
+                dest: "build/placeholders.js"
+            },
+            jquery: {
+                src: [
+                    "lib/utils.js",
+                    "lib/main.js",
+                    "lib/adapters/placeholders.jquery.js"
+                ],
+                dest: "build/placeholders.jquery.js"
             }
         },
         uglify: {
@@ -57,8 +65,10 @@ module.exports = function (grunt) {
                 banner: "/* Placeholders.js v<%= pkg.version %> */\n"
             },
             build: {
-                src: "build/Placeholders.js",
-                dest: "build/Placeholders.min.js"
+                files: {
+                    "build/placeholders.min.js": ["build/placeholders.js"],
+                    "build/placeholders.jquery.min.js": ["build/placeholders.jquery.js"]
+                }
             }
         }
     });
