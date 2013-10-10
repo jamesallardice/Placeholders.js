@@ -58,6 +58,14 @@ module.exports = function (grunt) {
                     "lib/adapters/placeholders.jquery.js"
                 ],
                 dest: "build/placeholders.jquery.js"
+            },
+            prototype: {
+                src: [
+                    "lib/utils.js",
+                    "lib/main.js",
+                    "lib/adapters/placeholders.prototype.js"
+                ],
+                dest: "build/placeholders.prototype.js"
             }
         },
         uglify: {
@@ -67,7 +75,8 @@ module.exports = function (grunt) {
             build: {
                 files: {
                     "build/placeholders.min.js": ["build/placeholders.js"],
-                    "build/placeholders.jquery.min.js": ["build/placeholders.jquery.js"]
+                    "build/placeholders.jquery.min.js": ["build/placeholders.jquery.js"],
+                    "build/placeholders.prototype.min.js": ["build/placeholders.prototype.js"]
                 }
             }
         }
