@@ -28,9 +28,10 @@ module.exports = function (grunt) {
                 quotmark: "double"
             },
             uses_defaults: [
-                "lib/main.js"
+                "lib/main.js",
+                "lib/utils.js"
             ],
-            with_overrides: {
+            override_node: {
                 options: {
                     browser: false,
                     node: true
@@ -40,6 +41,23 @@ module.exports = function (grunt) {
                         "Gruntfile.js",
                         "package.json"
                     ]
+                }
+            },
+            override_jquery: {
+                options: {
+                    jquery: true
+                },
+                files: {
+                    src: ["lib/adapters/placeholders.jquery.js"]
+                }
+            },
+            override_prototype: {
+                options: {
+                    prototypejs: true,
+                    validthis: true
+                },
+                files: {
+                    src: ["lib/adapters/placeholders.prototype.js"]
                 }
             }
         },
