@@ -150,7 +150,7 @@
             isPlaceholderValue = (elem.value === elem.getAttribute(ATTR_CURRENT_VAL));
 
         if ((valueChanged || isPlaceholderValue) && elem.getAttribute(ATTR_ACTIVE) === "true") {
-            elem.setAttribute(ATTR_ACTIVE, "false");
+            elem.removeAttribute(ATTR_ACTIVE);
             elem.value = elem.value.replace(elem.getAttribute(ATTR_CURRENT_VAL), "");
             elem.className = elem.className.replace(classNameRegExp, "");
 
@@ -417,6 +417,9 @@
                             elem.setAttribute(ATTR_CURRENT_VAL, placeholder);
                         }
                     }
+                } else if (elem.getAttribute(ATTR_ACTIVE)) {
+                    hidePlaceholder(elem);
+                    elem.removeAttribute(ATTR_CURRENT_VAL);
                 }
             }
 
@@ -433,11 +436,11 @@
 
 }(this));
 
-(function (Y) {
+(function (YUI) {
 
     "use strict";
 
-    Y.add("placeholders", function (Y) {
+    YUI.add("placeholders", function (Y) {
         var originalGetFn = Y.Node.prototype.get;
         Y.Node.prototype.get = function (attr) {
             if (attr === "value" && this.getAttribute("data-placeholder-active")) {
