@@ -54,7 +54,8 @@ module.exports = function (grunt) {
             override_prototype: {
                 options: {
                     prototypejs: true,
-                    validthis: true
+                    validthis: true,
+                    "-W020": true // We have to overwrite a prototype built-in method
                 },
                 files: {
                     src: ["lib/adapters/placeholders.prototype.js"]
