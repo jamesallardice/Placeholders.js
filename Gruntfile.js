@@ -111,7 +111,8 @@ module.exports = function (grunt) {
                 files: {
                     "build/placeholders.min.js": ["build/placeholders.js"],
                     "build/placeholders.jquery.min.js": ["build/placeholders.jquery.js"],
-                    "build/placeholders.prototype.min.js": ["build/placeholders.prototype.js"]
+                    "build/placeholders.prototype.min.js": ["build/placeholders.prototype.js"],
+                    "build/placeholders.yui3.min.js": ["build/placeholders.yui3.js"]
                 }
             }
         }
