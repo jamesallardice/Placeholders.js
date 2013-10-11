@@ -331,8 +331,10 @@
         elem.setAttribute(ATTR_EVENTS_BOUND, "true");
         elem.setAttribute(ATTR_CURRENT_VAL, placeholder);
 
-        // If the element doesn't have a value, set it to the placeholder string
-        showPlaceholder(elem);
+        // If the element doesn't have a value and is not focussed, set it to the placeholder string
+        if (hideOnInput || elem !== document.activeElement) {
+            showPlaceholder(elem);
+        }
     }
 
     Placeholders.nativeSupport = test.placeholder !== void 0;
@@ -430,30 +432,23 @@
     Placeholders.enable = Placeholders.nativeSupport ? noop : enablePlaceholders;
 
 }(this));
-(function ($) {
+
+(function (Y) {
 
     "use strict";
 
-    var originalValFn = $.fn.val,
-        originalPropFn = $.fn.prop;
-
-    if (!Placeholders.nativeSupport) {
-        $.fn.val = function (val) {
-            if (val) {
-                return originalValFn.call(this, val);
-            }
-            if (this.eq(0).data("placeholder-active")) {
+    Y.add("placeholders", function (Y) {
+        var originalGetFn = Y.Node.prototype.get;
+        Y.Node.prototype.get = function (attr) {
+            if (attr === "value" && this.getAttribute("data-placeholder-active")) {
                 return "";
             }
-            return originalValFn.apply(this, arguments);
+            return originalGetFn.apply(this, arguments);
         };
+    }, "3.0.0", {
+        requires: [
+            "node"
+        ]
+    });
 
-        $.fn.prop = function (name, val) {
-            if (val === undefined && this.eq(0).data("placeholder-active") && name === "value") {
-                return "";
-            }
-            return originalPropFn.apply(this, arguments);
-        };
-    }
-
-}(jQuery));
+}(YUI));

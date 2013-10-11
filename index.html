@@ -52,6 +52,7 @@
                         <li>
                             <a href="assets/js/placeholders.jquery.min.js">jQuery adapter <span class="aside">(4kB minified)</span></a>
                             <a href="assets/js/placeholders.prototype.min.js">Prototype adapter <span class="aside">(4kB minified)</span></a>
+                            <a href="assets/js/placeholders.yui3.min.js">YUI3 adapter <span class="aside">(4kB minified)</span></a>
                         </li>
                     </ul>
                 </div>
@@ -125,7 +126,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Library</th>
+                        <th style="width: 10%">Library</th>
                         <th>Description</th>
                         <th style="width: 30%">Downloads</th>
                     </tr>
@@ -148,6 +149,16 @@
                             <a href="assets/js/placeholders.prototype.min.js">placeholders.prototype.min.js</a>
                             <span class="aside">(v3.0.0 minified, 4kb)</span><br>
                             <a href="assets/js/placeholders.prototype.js">placeholders.prototype.js</a>
+                            <span class="aside">(v3.0.0 unminified, 19kb)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>YUI3</td>
+                        <td>Patches the <code>.get()</code> method of the <code>Node</code> module to return the empty string when the element in question has an active placeholder. You must require the <code>placeholders</code> module in your app for this to work.</td>
+                        <td>
+                            <a href="assets/js/placeholders.yui3.min.js">placeholders.yui3.min.js</a>
+                            <span class="aside">(v3.0.0 minified, 4kb)</span><br>
+                            <a href="assets/js/placeholders.yui3.js">placeholders.yui3.js</a>
                             <span class="aside">(v3.0.0 unminified, 19kb)</span>
                         </td>
                     </tr>
