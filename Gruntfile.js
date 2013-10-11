@@ -60,6 +60,14 @@ module.exports = function (grunt) {
                 files: {
                     src: ["lib/adapters/placeholders.prototype.js"]
                 }
+            },
+            override_yui: {
+                options: {
+                    yui: true
+                },
+                files: {
+                    src: ["lib/adapters/placeholders.yui3.js"]
+                }
             }
         },
         concat: {
@@ -85,6 +93,14 @@ module.exports = function (grunt) {
                     "lib/adapters/placeholders.prototype.js"
                 ],
                 dest: "build/placeholders.prototype.js"
+            },
+            yui3: {
+                src: [
+                    "lib/utils.js",
+                    "lib/main.js",
+                    "lib/adapters/placeholders.yui3.js"
+                ],
+                dest: "build/placeholders.yui3.js"
             }
         },
         uglify: {
