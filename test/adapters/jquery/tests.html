@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Placeholders.js Browser Test</title>
+        <link rel="stylesheet" href="../../tests.css">
+    </head>
+    <body>
+
+        <!-- jQuery adapter should cause the val method to return the empty string -->
+        <input placeholder="Test no type" id="jq1">
+
+        <!-- Adapter should handle elements with a placeholder and an initial value -->
+        <input type="text" placeholder="Test initial value" value="Initial value" id="jq2">
+
+        <!-- Adapter should handle placeholder values that change via script (this changes after 1s) -->
+        <input type="text" placeholder="Test changing value" id="handle1">
+
+        <!-- Adapter should handle placeholder values are added via script (this gets one after 1s) -->
+        <input type="text" id="handle2">
+
+        <!-- Adapter should handle input types that change after page load e.g. text->password -->
+        <input type="text" id="handle3" placeholder="Change to password">
+
+        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="../../../build/placeholders.jquery.js"></script>
+        <script src="tests.js"></script>
+    </body>
+</html>
