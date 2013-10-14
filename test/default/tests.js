@@ -21,6 +21,8 @@ setTimeout(function () {
         // This will fail in IE < 9
     }
 
+    document.getElementById("handle4").removeAttribute("placeholder");
+
 }, 1000);
 
 // Bind a submit event handler to the test form
