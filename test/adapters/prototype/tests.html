@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Placeholders.js Browser Test</title>
+        <link rel="stylesheet" href="../../tests.css">
+    </head>
+    <body>
+
+        <!-- Prototype adapter should cause the getValue methods to return the empty string -->
+        <input placeholder="Test no type" id="p1">
+
+        <!-- Adapter should handle elements with a placeholder and an initial value -->
+        <input type="text" placeholder="Test initial value" value="Initial value" id="p2">
+
+        <!-- Adapter should handle placeholder values that change via script (this changes after 1s) -->
+        <input type="text" placeholder="Test changing value" id="handle1">
+
+        <!-- Adapter should handle placeholder values are added via script (this gets one after 1s) -->
+        <input type="text" id="handle2">
+
+        <!-- Adapter should handle input types that change after page load e.g. text->password -->
+        <input type="text" id="handle3" placeholder="Change to password">
+
+        <script src="http://ajax.googleapis.com/ajax/libs/prototype/1.7.1.0/prototype.js"></script>
+        <script src="../../../build/placeholders.prototype.js"></script>
+        <script src="tests.js"></script>
+    </body>
+</html>
