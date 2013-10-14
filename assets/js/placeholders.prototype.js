@@ -150,7 +150,7 @@
             isPlaceholderValue = (elem.value === elem.getAttribute(ATTR_CURRENT_VAL));
 
         if ((valueChanged || isPlaceholderValue) && elem.getAttribute(ATTR_ACTIVE) === "true") {
-            elem.setAttribute(ATTR_ACTIVE, "false");
+            elem.removeAttribute(ATTR_ACTIVE);
             elem.value = elem.value.replace(elem.getAttribute(ATTR_CURRENT_VAL), "");
             elem.className = elem.className.replace(classNameRegExp, "");
 
@@ -331,8 +331,10 @@
         elem.setAttribute(ATTR_EVENTS_BOUND, "true");
         elem.setAttribute(ATTR_CURRENT_VAL, placeholder);
 
-        // If the element doesn't have a value, set it to the placeholder string
-        showPlaceholder(elem);
+        // If the element doesn't have a value and is not focussed, set it to the placeholder string
+        if (hideOnInput || elem !== document.activeElement) {
+            showPlaceholder(elem);
+        }
     }
 
     Placeholders.nativeSupport = test.placeholder !== void 0;
@@ -415,6 +417,9 @@
                             elem.setAttribute(ATTR_CURRENT_VAL, placeholder);
                         }
                     }
+                } else if (elem.getAttribute(ATTR_ACTIVE)) {
+                    hidePlaceholder(elem);
+                    elem.removeAttribute(ATTR_CURRENT_VAL);
                 }
             }
 
@@ -430,3 +435,40 @@
     Placeholders.enable = Placeholders.nativeSupport ? noop : enablePlaceholders;
 
 }(this));
+
+(function (F) {
+
+    "use strict";
+
+    var originalGetValueMethod = F.Element.Methods.getValue,
+        originalGetValueStatic = F.Element.getValue,
+        originalGlobal = $F;
+
+    function getValue(originalFn, elem) {
+        if (elem.getAttribute("data-placeholder-active")) {
+            return "";
+        }
+        return originalFn.call(this, elem);
+    }
+
+    if (!Placeholders.nativeSupport) {
+
+        $F = function (elem) {
+            return getValue.call(this, originalGlobal, elem);
+        };
+
+        F.Element.getValue = function (elem) {
+            return getValue.call(this, originalGetValueStatic, elem);
+        };
+
+        Element.addMethods([
+            "INPUT",
+            "TEXTAREA"
+        ], {
+            getValue: function (elem) {
+                return getValue.call(this, originalGetValueMethod, elem);
+            }
+        });
+    }
+
+}(Form));

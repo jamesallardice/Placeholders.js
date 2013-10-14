@@ -3,11 +3,29 @@
     <head>
         <meta charset="utf-8">
         <title>Placeholders.js - An HTML5 placeholder attribute polyfill</title>
-        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css">
         <style>
             iframe {
                 width: 99%;
                 border: 1px solid #ccc;
+                padding-top: 20px;
+            }
+            .placeholder-example {
+                padding-top: 20px;
+            }
+            .list li {
+                padding:5px;
+            }
+            .small {
+                font-size:11px;
+                display:block;
+                text-align:right;
+            }
+            .aside {
+                font-size:11px;
+            }
+            .github {
+                margin-top: 10px;
             }
         </style>
     </head>
@@ -18,11 +36,27 @@
                 <p>
                     Placeholders.js is a JavaScript polyfill for the HTML5 <code>placeholder</code> attribute. It's lightweight, has zero dependencies and works in pretty much any browser you can imagine.
                 </p>
-                <p>
-                    <a href="assets/js/Placeholders.min.js" class="btn btn-primary btn-large">Download for production <span class="small">(v2.1.1 minified, 4kB)</span></a>
-                    <a href="assets/js/Placeholders.js" class="btn btn-info btn-large">Download for debugging <span class="small">(v2.1.1 unminified, 18kB)</span></a>
-                </p>
-                <p class="small pull-left">
+                <div class="btn-group">
+                    <a href="assets/js/placeholders.min.js" class="btn btn-primary btn-large">Download for production <span class="small">(v3.0.0 minified, 4kB)</span></a>
+                </div>
+                <div class="btn-group">
+                    <a href="assets/js/placeholders.js" class="btn btn-info btn-large">Download for debugging <span class="small">(v3.0.0 unminified, 18kB)</span></a>
+                </div>
+                <div class="btn-group">
+                    <button href="#" class="btn btn-large">Download with adapter <span class="small">(<a href="#adapters">What is this?</a>)</span></button>
+                    <a href="#" class="btn btn-large dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="small">&nbsp;</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="assets/js/placeholders.jquery.min.js">jQuery adapter <span class="aside">(4kB minified)</span></a>
+                            <a href="assets/js/placeholders.prototype.min.js">Prototype adapter <span class="aside">(4kB minified)</span></a>
+                            <a href="assets/js/placeholders.yui3.min.js">YUI3 adapter <span class="aside">(4kB minified)</span></a>
+                        </li>
+                    </ul>
+                </div>
+                <p class="aside github">
                     Want to help out? Contribute <a href="https://github.com/jamesallardice/Placeholders.js/">on GitHub</a>.
                 </p>
             </div>
@@ -81,9 +115,59 @@
                 It works in a massive range of browsers, <strong>including Internet Explorer 6</strong>, and it does it <strong>without any dependencies</strong>, so there's no need to include jQuery if you don't want to! What's more, it manages to do all this in <strong>just 4kB of JavaScript</strong>.
             </p>
             <hr>
+            <h2 id="adapters">Adapters</h2>
+            <p>
+                Placeholders.js is available as a basic standalone script or alternatively bundled with a DOM library adapter. If you're using one of the DOM libraries listed below it is recommended that you use a version of Placeholders.js bundled with the appropriate adapter.
+            </p>
+            <p>
+                The adapters patch methods of DOM libraries so you don't end up with the placeholder text as the return value of, for example, the jQuery <code>.val()</code> method.
+            </p>
+            <h3>Available adapters</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 10%">Library</th>
+                        <th>Description</th>
+                        <th style="width: 30%">Downloads</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>jQuery</td>
+                        <td>Patches the <code>.val()</code> method to return the empty string when the element in question has an active placeholder</td>
+                        <td>
+                            <a href="assets/js/placeholders.jquery.min.js">placeholders.jquery.min.js</a>
+                            <span class="aside">(v3.0.0 minified, 4kb)</span><br>
+                            <a href="assets/js/placeholders.jquery.js">placeholders.jquery.js</a>
+                            <span class="aside">(v3.0.0 unminified, 18kb)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Prototype</td>
+                        <td>Patches the <code>.getValue()</code> method (instance and static), as well as the <code>$F</code> utility function to return the empty string when the element in question has an active placeholder</td>
+                        <td>
+                            <a href="assets/js/placeholders.prototype.min.js">placeholders.prototype.min.js</a>
+                            <span class="aside">(v3.0.0 minified, 4kb)</span><br>
+                            <a href="assets/js/placeholders.prototype.js">placeholders.prototype.js</a>
+                            <span class="aside">(v3.0.0 unminified, 19kb)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>YUI3</td>
+                        <td>Patches the <code>.get()</code> method of the <code>Node</code> module to return the empty string when the element in question has an active placeholder. You must require the <code>placeholders</code> module in your app for this to work.</td>
+                        <td>
+                            <a href="assets/js/placeholders.yui3.min.js">placeholders.yui3.min.js</a>
+                            <span class="aside">(v3.0.0 minified, 4kb)</span><br>
+                            <a href="assets/js/placeholders.yui3.js">placeholders.yui3.js</a>
+                            <span class="aside">(v3.0.0 unminified, 19kb)</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
             <h2>Setup</h2>
             <p>
-                Placeholders.js is incredibly easy to use. Just <a href="assets/js/Placeholders.min.js">download the script</a>, include it at the bottom of any web page and let it do the rest. It's just one extra line in your markup. Browsers that support the <code>placeholder</code> attribute natively will be unaffected and work as usual.
+                Placeholders.js is incredibly easy to use. Just <a href="assets/js/placeholders.min.js">download the script</a>, include it at the bottom of any web page and let it do the rest. It's just one extra line in your markup. Browsers that support the <code>placeholder</code> attribute natively will be unaffected and work as usual.
             </p>
             <p>
                 If you want a bit more control over how the polyfill behaves, you can configure it with HTML5 <code>data-*</code> attributes on the root <code>&lt;html&gt;</code> element.
@@ -181,11 +265,11 @@
             $("iframe").each(function () {
                 var gist = $(this).parent().prev().find(".gist");
                 this.contentWindow.document.write(gist.find(".line-pre").text());
-                $(this).height(gist.height());
+                $(this).height(gist.height() - 20);
             });
             $("a[data-toggle='tab']").on("shown", function () {
                 $("iframe").height(function () {
-                    return $(this).parent().prev().find(".gist").height();
+                    return $(this).parent().prev().find(".gist").height() - 20; // -20 accounts for padding on iframe
                 });
             });
         </script>
