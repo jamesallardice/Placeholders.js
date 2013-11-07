@@ -7,6 +7,7 @@ Placeholders.js is licensed under the [MIT License](http://en.wikipedia.org/wiki
 ## Get it!
 
 Download the polyfill and get a whole load of information and instructions at [our new website](http://jamesallardice.github.com/Placeholders.js/).
+If you're using Ruby on Rails, you can also try out [our gem](https://github.com/ets-berkeley-edu/placeholder-gem).
     
 ##Supported Browsers
 
