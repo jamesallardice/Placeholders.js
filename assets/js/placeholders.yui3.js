@@ -142,6 +142,16 @@
     // No-op (used in place of public methods when native support is detected)
     function noop() {}
 
+    // Avoid IE9 activeElement of death when an iframe is used.
+    // More info:
+    // http://bugs.jquery.com/ticket/13393
+    // https://github.com/jquery/jquery/commit/85fc5878b3c6af73f42d61eedf73013e7faae408
+    function safeActiveElement() {
+        try {
+            return document.activeElement;
+        } catch (err) {}
+    }
+
     // Hide the placeholder value on a single element. Returns true if the placeholder was hidden and false if it was not (because it wasn't visible in the first place)
     function hidePlaceholder(elem, keydownValue) {
         var type,
@@ -287,7 +297,7 @@
     }
     function makeClickHandler(elem) {
         return function () {
-            if (elem === document.activeElement && elem.value === elem.getAttribute(ATTR_CURRENT_VAL) && elem.getAttribute(ATTR_ACTIVE) === "true") {
+            if (elem === safeActiveElement() && elem.value === elem.getAttribute(ATTR_CURRENT_VAL) && elem.getAttribute(ATTR_ACTIVE) === "true") {
                 Utils.moveCaret(elem, 0);
             }
         };
@@ -332,7 +342,7 @@
         elem.setAttribute(ATTR_CURRENT_VAL, placeholder);
 
         // If the element doesn't have a value and is not focussed, set it to the placeholder string
-        if (hideOnInput || elem !== document.activeElement) {
+        if (hideOnInput || elem !== safeActiveElement()) {
             showPlaceholder(elem);
         }
     }
@@ -429,6 +439,10 @@
             }
         }, 100);
     }
+
+    Utils.addEventListener(global, "beforeunload", function () {
+        disablePlaceholders();
+    });
 
     // Expose public methods
     Placeholders.disable = Placeholders.nativeSupport ? noop : disablePlaceholders;
