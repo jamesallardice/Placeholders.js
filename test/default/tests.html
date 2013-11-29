@@ -53,6 +53,11 @@
             <button type="submit">Submit form</button>
         </form>
 
+        <!-- Polyfill should handle input elements that specify their form with an attribute -->
+        <form method="get" action="" id="form2">
+            <input type="text" form="form2" placeholder="Test form attribute">
+        </form>
+
         <script src="../../build/Placeholders.js"></script>
         <script src="tests.js"></script>
     </body>
