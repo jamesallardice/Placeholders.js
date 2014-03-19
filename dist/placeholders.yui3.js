@@ -85,19 +85,15 @@
         ATTR_EVENTS_BOUND = "data-placeholder-bound",
         ATTR_OPTION_FOCUS = "data-placeholder-focus",
         ATTR_OPTION_LIVE = "data-placeholder-live",
+        ATTR_OPTION_MULTILINE = "data-placeholder-multiline",
         ATTR_MAXLENGTH = "data-placeholder-maxlength",
-
-        // Configuration option defaults
-        options = {
-            live: true,
-            hideOnInput: false
-        },
 
         // Various other variables used throughout the rest of the script
         test = document.createElement("input"),
         head = document.getElementsByTagName("head")[0],
         root = document.documentElement,
         Placeholders = global.Placeholders = {},
+        options = {},
         keydownVal,
         styleElem,
         styleRules,
@@ -220,6 +216,12 @@
             maxLength,
             val = elem.getAttribute(ATTR_CURRENT_VAL);
         if (elem.value === "" && val) {
+
+            // Strip newline characters from the placeholder
+            if (options.multiline) {
+                val = val.replace(/\n/g, "");
+            }
+
             elem.setAttribute(ATTR_ACTIVE, "true");
             elem.value = val;
             elem.className += " " + placeholderClassName;
@@ -444,6 +446,7 @@
         // focus or input and whether to auto-update)
         options.hideOnInput = root.getAttribute(ATTR_OPTION_FOCUS) === "false";
         options.live = root.getAttribute(ATTR_OPTION_LIVE) !== "false";
+        options.multiline = root.getAttribute(ATTR_OPTION_MULTILINE) !== "false";
 
         // Create style element for placeholder styles (instead of directly
         // setting style properties on elements - allows for better flexibility
