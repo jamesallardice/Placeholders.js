@@ -11,7 +11,8 @@
     },
     "scripts": {
         "test": "./node_modules/jshint/bin/jshint --exclude-path=.jshintignore lib/{,**/}*.js && ./node_modules/jscs/bin/jscs lib/{,**/}*.js",
-        "min": "./node_modules/uglify-js/bin/uglifyjs lib/placeholders.js lib/adapters/*.js -o dist/placeholders.min.js -m",
-        "build": "npm test && npm run min && cp lib/{,**/}*.js dist/"
+        "dev": "cp lib/placeholders.js dist/ && cat lib/placeholders.js lib/adapters/placeholders.jquery.js >> dist/placeholders.jquery.js && cat lib/placeholders.js lib/adapters/placeholders.prototype.js >> dist/placeholders.prototype.js && cat lib/placeholders.js lib/adapters/placeholders.yui3.js >> dist/placeholders.yui3.js",
+        "min": "for i in dist/*.js; do ./node_modules/uglify-js/bin/uglifyjs $i -o \"${i/.js/.min.js}\" -m; done",
+        "build": "npm test && npm run dev && npm run min"
     }
 }
