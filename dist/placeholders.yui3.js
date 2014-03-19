@@ -218,7 +218,7 @@
         if (elem.value === "" && val) {
 
             // Strip newline characters from the placeholder
-            if (options.multiline) {
+            if (!options.multiline) {
                 val = val.replace(/\n/g, "");
             }
 
