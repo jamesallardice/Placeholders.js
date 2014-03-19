@@ -5,9 +5,13 @@
     "description": "A JavaScript polyfill for the HTML5 placeholder attribute",
     "private": true,
     "devDependencies": {
-        "grunt": "0.4.x",
-        "grunt-contrib-jshint": "0.3.x",
-        "grunt-contrib-concat": "0.1.x",
-        "grunt-contrib-uglify": "0.2.x"
+        "jscs": "^1.3.0",
+        "jshint": "^2.4.0",
+        "uglify-js": "^2.4.0"
+    },
+    "scripts": {
+        "test": "./node_modules/jshint/bin/jshint --exclude-path=.jshintignore lib/{,**/}*.js && ./node_modules/jscs/bin/jscs lib/{,**/}*.js",
+        "min": "./node_modules/uglify-js/bin/uglifyjs lib/placeholders.js lib/adapters/*.js -o dist/placeholders.min.js -m",
+        "build": "npm test && npm run min && cp lib/{,**/}*.js dist/"
     }
 }
