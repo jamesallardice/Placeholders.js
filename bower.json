@@ -1,0 +1,15 @@
+{
+    "name": "placeholders",
+    "version": "3.0.2",
+    "main": "dist/placeholders.min.js",
+    "ignore": [
+        ".gitignore",
+        ".jshintignore",
+        ".editorconfig",
+        "package.json",
+        ".jshintrc",
+        ".jscsrc",
+        "test/",
+        "lib/"
+    ]
+}
