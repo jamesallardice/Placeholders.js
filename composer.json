@@ -1,0 +1,27 @@
+{
+    "name": "jamesallardice/placeholders",
+    "description": "A way to install Placeholders.js via composer",
+    "license": "MIT",
+    "type": "component",
+    "keywords": [
+        "js"
+    ],
+    "authors": [{
+        "name": "James Allardice",
+        "email": "A JavaScript polyfill for the HTML5 placeholder attribute"
+    }],
+    "require": {
+        "robloach/component-installer": "*"
+    },
+    "extra": {
+        "component": {
+            "name": "placeholders",
+            "scripts": [
+                "dest/placeholders.src.js"
+            ],
+            "files": [
+                "dest/placeholders.min.js"
+            ]
+        }
+    }
+}
