@@ -31,6 +31,9 @@ setTimeout(function () {
         alert($("#handle3").val() === "");
         alert($("#handle3").prop("value") === "");
 
+        alert($("#handle4").val() === "");
+        alert($("#handle4").prop("value") === "");
+
         // The behaviour of `val` and `prop` as setters should not be affected)
         alert($("#jq1").val("set new") instanceof $);
         alert($("#handle3").prop("value", "another new") instanceof $);
