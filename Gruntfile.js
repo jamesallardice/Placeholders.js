@@ -74,7 +74,8 @@ module.exports = function (grunt) {
             basic: {
                 src: [
                     "lib/utils.js",
-                    "lib/main.js"
+                    "lib/main.js",
+                    "lib/exports.js"
                 ],
                 dest: "build/placeholders.js"
             },
