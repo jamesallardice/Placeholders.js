@@ -39,12 +39,12 @@
         </p>
         <div class="btn-group">
           <a href="assets/js/placeholders.min.js" class="btn btn-primary btn-large">
-            Download for production <span class="small">(v4.0.0 minified, 5kB)</span>
+            Download for production <span class="small">(v4.0.1 minified, 5kB)</span>
           </a>
         </div>
         <div class="btn-group">
           <a href="assets/js/placeholders.js" class="btn btn-info btn-large">
-            Download for debugging <span class="small">(v4.0.0 unminified, 18kB)</span>
+            Download for debugging <span class="small">(v4.0.1 unminified, 18kB)</span>
           </a>
         </div>
         <div class="btn-group">
@@ -119,13 +119,13 @@
       </div>
       <h2>Features</h2>
       <p>
-        Placeholders.js works on both <strong>input and textarea elements</strong>. It only requires a 
-        <strong>single line of HTML</strong>. It does its best to <strong>simulate native styles</strong>, and 
+        Placeholders.js works on both <strong>input and textarea elements</strong>. It only requires a
+        <strong>single line of HTML</strong>. It does its best to <strong>simulate native styles</strong>, and
         exposes a class name so you can style the placeholder as you choose.
       </p>
       <p>
-        It works for <strong>elements added to the page by JavaScript</strong>, and also for placeholder 
-        attributes that are changed by a script sometime after page load, and it makes sure that placeholder 
+        It works for <strong>elements added to the page by JavaScript</strong>, and also for placeholder
+        attributes that are changed by a script sometime after page load, and it makes sure that placeholder
         text <strong>isn't submitted as form data</strong> - a common issue with other placeholder solutions.
       </p>
       <p>
@@ -137,7 +137,7 @@
       <h2 id="adapters">Adapters</h2>
       <p>
         Placeholders.js is available as a basic standalone script or alternatively bundled with a DOM library
-        adapter. If you're using one of the DOM libraries listed below it is recommended that you use a version of 
+        adapter. If you're using one of the DOM libraries listed below it is recommended that you use a version of
         Placeholders.js bundled with the appropriate adapter.
       </p>
       <p>
@@ -157,7 +157,7 @@
           <tr>
             <td>jQuery</td>
             <td>
-              Patches the <code>.val()</code> method to return the empty string when the element in question has an 
+              Patches the <code>.val()</code> method to return the empty string when the element in question has an
               active placeholder
             </td>
             <td>
@@ -170,7 +170,7 @@
           <tr>
             <td>Prototype</td>
             <td>
-              Patches the <code>.getValue()</code> method (instance and static), as well as the <code>$F</code> 
+              Patches the <code>.getValue()</code> method (instance and static), as well as the <code>$F</code>
               utility function to return the empty string when the element in question has an active placeholder.
             </td>
             <td>
@@ -184,7 +184,7 @@
             <td>YUI3</td>
             <td>
               Patches the <code>.get()</code> method of the <code>Node</code> module to return the empty string
-              when the element in question has an active placeholder. You must require the <code>placeholders</code> 
+              when the element in question has an active placeholder. You must require the <code>placeholders</code>
               module in your app for this to work.
             </td>
             <td>
@@ -200,11 +200,11 @@
       <h2>Setup</h2>
       <p>
         Placeholders.js is incredibly easy to use. Just <a href="assets/js/placeholders.min.js">download the script</a>,
-        include it at the bottom of any web page and let it do the rest. It's just one extra line in your markup. 
+        include it at the bottom of any web page and let it do the rest. It's just one extra line in your markup.
         Browsers that support the <code>placeholder</code> attribute natively will be unaffected and work as usual.
       </p>
       <p>
-        If you want a bit more control over how the polyfill behaves, you can configure it with HTML5 
+        If you want a bit more control over how the polyfill behaves, you can configure it with HTML5
         <code>data-*</code> attributes on the root <code>&lt;html&gt;</code> element.
       </p>
       <h3>Options</h3>
@@ -221,8 +221,8 @@
               <code>data-placeholder-focus</code>
             </td>
             <td>
-              Set this to <code>false</code> if you want your placeholders to hide when a user enters something in 
-              the field, instead of just giving focus to the field. This is how later versions of Chrome and Safari 
+              Set this to <code>false</code> if you want your placeholders to hide when a user enters something in
+              the field, instead of just giving focus to the field. This is how later versions of Chrome and Safari
               behave natively.
             </td>
           </tr>
@@ -232,21 +232,21 @@
             </td>
             <td>
               Set this to <code>false</code> if you don't want your placeholders to update if you change them via
-              JavaScript, or add new elements to the page after it's loaded. If you know you won't be changing the 
+              JavaScript, or add new elements to the page after it's loaded. If you know you won't be changing the
               page in this way, you should always set this to <code>false</code>.
             </td>
           </tr>
         </tbody>
       </table>
       <p>
-        Is there an option that you think would be useful? Just 
-        <a href="https://github.com/jamesallardice/Placeholders.js/issues">open an issue on GitHub</a> and we'll look 
+        Is there an option that you think would be useful? Just
+        <a href="https://github.com/jamesallardice/Placeholders.js/issues">open an issue on GitHub</a> and we'll look
         into adding it. Alternatively, fork the project and add it yourself!
       </p>
       <hr>
       <h2>API</h2>
       <p>
-        Placeholders.js exposes a very simple API that you can use to handle your placeholders via JavaScript. The 
+        Placeholders.js exposes a very simple API that you can use to handle your placeholders via JavaScript. The
         main use of these methods is so you can show the placeholders again in situations the polyfill can't handle
         on its own, such as cancelled form submissions.
       </p>
@@ -263,7 +263,7 @@
               <code>Placeholders.disable( [element] )</code>
             </td>
             <td>
-              Call this method to hide the placeholder on an element, or on all descendants of an element. If you 
+              Call this method to hide the placeholder on an element, or on all descendants of an element. If you
               don't pass in an element, all placeholders will be affected.
             </td>
           </tr>
@@ -287,7 +287,7 @@
       </p>
       <ol class="list">
         <li>
-          Make sure you have <a href="http://nodejs.org/">Node.js</a> and its package manager, 
+          Make sure you have <a href="http://nodejs.org/">Node.js</a> and its package manager,
           <a href="https://npmjs.org/">npm</a>, installed
         </li>
         <li>Install Grunt (minimum version 0.4) globally: <code>npm install -g grunt-cli</code></li>
@@ -299,7 +299,7 @@
       <hr>
       <h2>Thanks</h2>
       <p>
-        Placeholders.js was originally developed, and is maintained by, 
+        Placeholders.js was originally developed, and is maintained by,
         <a href="http://jamesallardice.com">James Allardice</a>. Huge thanks to the following people for their help
         in this project.
       </p>
