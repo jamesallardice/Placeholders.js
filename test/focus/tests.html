@@ -1,56 +1,56 @@
 <!doctype html>
 <!-- Placeholders on this page should hide on input rather than on focus -->
 <html data-placeholder-focus="false">
-    <head>
-        <meta charset="utf-8">
-        <title>Placeholders.js Browser Test</title>
-        <link rel="stylesheet" href="../tests.css">
-    </head>
-    <body>
+  <head>
+    <meta charset="utf-8">
+    <title>Placeholders.js Browser Test</title>
+    <link rel="stylesheet" href="../tests.css">
+  </head>
+  <body>
 
-        <!-- Polyfill should handle input elements with no type attribute (it should default to "text" in all browsers) -->
-        <input placeholder="Test no type">
+    <!-- Polyfill should handle input elements with no type attribute (it should default to "text" in all browsers) -->
+    <input placeholder="Test no type">
 
-        <!-- Polyfill should handle input elements with various type attribute values -->
-        <input type="text" placeholder="Test text type">
-        <input type="search" placeholder="Test search type">
-        <input type="url" placeholder="Test url type">
-        <input type="tel" placeholder="Test tel type">
-        <input type="email" placeholder="Test email type">
-        <input type="number" placeholder="Test number type">
+    <!-- Polyfill should handle input elements with various type attribute values -->
+    <input type="text" placeholder="Test text type">
+    <input type="search" placeholder="Test search type">
+    <input type="url" placeholder="Test url type">
+    <input type="tel" placeholder="Test tel type">
+    <input type="email" placeholder="Test email type">
+    <input type="number" placeholder="Test number type">
 
-        <!-- Polyfill should handle inputs of password type but should show a masked placeholder in Internet Explorer 8 and below -->
-        <input type="password" placeholder="Test password type">
+    <!-- Polyfill should handle inputs of password type but should show a masked placeholder in Internet Explorer 8 and below -->
+    <input type="password" placeholder="Test password type">
 
-        <!-- Polyfill should handle textarea elements -->
-        <textarea placeholder="Test textarea"></textarea>
+    <!-- Polyfill should handle textarea elements -->
+    <textarea placeholder="Test textarea"></textarea>
 
-        <!-- Polyfill should ignore the maxlength attribute if present -->
-        <input type="text" placeholder="Test maxlength" maxlength="4">
+    <!-- Polyfill should ignore the maxlength attribute if present -->
+    <input type="text" placeholder="Test maxlength" maxlength="4">
 
-        <!-- Polyfill should not remove the wrong class name (see GH-25) -->
-        <input type="text" placeholder="My text colour should change on input" class="wrong-placeholdersjs">
+    <!-- Polyfill should not remove the wrong class name (see GH-25) -->
+    <input type="text" placeholder="My text colour should change on input" class="wrong-placeholdersjs">
 
-        <!-- Polyfill should handle elements with a placeholder and an initial value -->
-        <input type="text" placeholder="Test initial value" value="Initial value">
+    <!-- Polyfill should handle elements with a placeholder and an initial value -->
+    <input type="text" placeholder="Test initial value" value="Initial value">
 
-        <!-- Polyfill should handle placeholder values that change via script (this changes after 1s) -->
-        <input type="text" placeholder="Test changing value" id="handle1">
+    <!-- Polyfill should handle placeholder values that change via script (this changes after 1s) -->
+    <input type="text" placeholder="Test changing value" id="handle1">
 
-        <!-- Polyfill should handle placeholder values are added via script (this gets one after 1s) -->
-        <input type="text" id="handle2">
+    <!-- Polyfill should handle placeholder values are added via script (this gets one after 1s) -->
+    <input type="text" id="handle2">
 
-        <!-- Polyfill should handle input types that change after page load e.g. text->password -->
-        <input type="text" id="handle3" placeholder="Change to password">
+    <!-- Polyfill should handle input types that change after page load e.g. text->password -->
+    <input type="text" id="handle3" placeholder="Change to password">
 
-        <!-- Polyfill should not allow placeholder text to be submitted as part of a form -->
-        <form method="get" action="" id="form1">
-            <input type="text" placeholder="Test form submission">
-            <input type="text" value="I should be submitted">
-            <button type="submit">Submit form</button>
-        </form>
+    <!-- Polyfill should not allow placeholder text to be submitted as part of a form -->
+    <form method="get" action="" id="form1">
+      <input type="text" placeholder="Test form submission">
+      <input type="text" value="I should be submitted">
+      <button type="submit">Submit form</button>
+    </form>
 
-        <script src="../../build/Placeholders.js"></script>
-        <script src="tests.js"></script>
-    </body>
+    <script src="../../dist/placeholders.js"></script>
+    <script src="tests.js"></script>
+  </body>
 </html>
