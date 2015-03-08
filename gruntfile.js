@@ -8,47 +8,55 @@ module.exports = function ( grunt ) {
 
     pkg: grunt.file.readJSON('package.json'),
 
+    copy: {
+      lib: {
+        src: 'lib/placeholders.js',
+        dest: 'dist/placeholders.js'
+      }
+    },
+
     concat: {
       jquery: {
         src: [
-          'lib/utils.js',
+          'lib/placeholders.js',
           'lib/adapters/placeholders.jquery.js'
         ],
-        dest: 'build/placeholders.jquery.js'
+        dest: 'dist/placeholders.jquery.js'
       },
       prototype: {
         src: [
-          'lib/main.js',
+          'lib/placeholders.js',
           'lib/adapters/placeholders.prototype.js'
         ],
-        dest: 'build/placeholders.prototype.js'
+        dest: 'dist/placeholders.prototype.js'
       },
       yui3: {
         src: [
-          'lib/main.js',
+          'lib/placeholders.js',
           'lib/adapters/placeholders.yui3.js'
         ],
-        dest: 'build/placeholders.yui3.js'
+        dest: 'dist/placeholders.yui3.js'
       }
     },
 
     uglify: {
       options: {
-        banner: '/* Placeholders.js v<%= pkg.version %> */\n'
+        banner: '/* Placeholders.js v<%= pkg.version %> */\n',
+        preserveComments: 'some'
       },
       build: {
         files: {
-          'build/placeholders.min.js': [
-            'build/placeholders.js'
+          'dist/placeholders.min.js': [
+            'dist/placeholders.js'
           ],
-          'build/placeholders.jquery.min.js': [
-            'build/placeholders.jquery.js'
+          'dist/placeholders.jquery.min.js': [
+            'dist/placeholders.jquery.js'
           ],
-          'build/placeholders.prototype.min.js': [
-            'build/placeholders.prototype.js'
+          'dist/placeholders.prototype.min.js': [
+            'dist/placeholders.prototype.js'
           ],
-          'build/placeholders.yui3.min.js': [
-            'build/placeholders.yui3.js'
+          'dist/placeholders.yui3.min.js': [
+            'dist/placeholders.yui3.js'
           ]
         }
       }
@@ -56,6 +64,7 @@ module.exports = function ( grunt ) {
   });
 
   grunt.registerTask('default', [
+    'copy',
     'concat',
     'uglify'
   ]);
