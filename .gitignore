@@ -1,8 +1,5 @@
 # Ignore 3rd-party Node modules
 node_modules
 
-# Ignore build output
-build
-
 # Ignore annoying OS X files
 .DS_Store
