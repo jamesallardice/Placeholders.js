@@ -1,0 +1,10 @@
+{
+  "name": "placeholders",
+  "version": "4.0.0",
+  "main": "dist/placeholders.js",
+  "ignore": [
+    ".editorconfig",
+    ".eslintrc",
+    ".jscsrc"
+  ]
+}
