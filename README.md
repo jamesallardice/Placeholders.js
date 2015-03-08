@@ -10,11 +10,15 @@ unminified file for the full license text.
 
 ## Get it!
 
-Download the polyfill and get a whole load of information and instructions at
-[our new website][site]. If you're using Ruby on Rails, you can also try out
-[our gem][gem].
+The polyfill is available through Bower:
 
-##Supported Browsers
+    bower install placeholders
+
+Alternatively, you can download the polyfill and get a whole load of information
+and instructions at [our website][site]. If you're using Ruby on Rails, you can
+also try out [our gem][gem].
+
+## Supported Browsers
 
 Placeholders.js aims to support the widest range of browsers possible. The idea
 is that you will be able to use the native `placeholder` attribute along with
