@@ -31,8 +31,10 @@
   // that have native support for the attribute.
   //
 
+  var root = document.documentElement;
   var test = document.createElement('input');
   var nativeSupport = test.placeholder !== void 0;
+  var useNativeSuport = root.getAttribute('data-placeholder-usenative') !== 'false';
 
   global.Placeholders = {
     nativeSupport: nativeSupport,
@@ -40,7 +42,7 @@
     enable: nativeSupport ? noop : enablePlaceholders
   };
 
-  if ( nativeSupport ) {
+  if ( nativeSupport  && useNativeSuport ) {
     return;
   }
 
