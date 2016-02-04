@@ -1,9 +1,9 @@
 {
-  "name": "Placeholders.js",
+  "name": "fork-placeholders.js",
   "version": "4.0.1",
   "author": "James Allardice <admin@jamesallardice.com>",
   "description": "A JavaScript polyfill for the HTML5 placeholder attribute",
-  "private": true,
+  "main": "dist/placeholders.js",
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-contrib-concat": "~0.5.1",
