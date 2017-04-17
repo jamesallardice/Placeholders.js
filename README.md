@@ -1,4 +1,4 @@
-#Placeholders.js - An HTML5 placeholder attribute polyfill
+# Placeholders.js - An HTML5 placeholder attribute polyfill
 
 Placeholders.js is a polyfill (or shim, or whatever you like to call it) for
 the HTML5 placeholder attribute, as defined in the [HTML5 specification][spec].
